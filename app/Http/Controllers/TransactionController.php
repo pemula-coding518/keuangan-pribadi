@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-// Import model
+// Import Model
 use App\Models\Transaction;
 use App\Models\Category;
 
-// Import request
+// Import Request
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -19,91 +21,62 @@ class TransactionController extends Controller
 
     public function index(Request $request)
     {
-        // Mengambil keyword search
+        // Keyword pencarian
         $search = $request->search;
 
         /*
         |--------------------------------------------------------------------------
-        | Query transaksi
+        | Data transaksi
         |--------------------------------------------------------------------------
         */
 
-        $transactions = Transaction::with('category')
-
-            // Jika ada pencarian
-            ->when($search, function ($query) use ($search) {
-
-                // Cari berdasarkan title
-                $query->where('title', 'like', "%{$search}%");
-            })
-
-            // Urut terbaru
-            ->latest()
-
-
-            // Pagination
-            ->paginate(5);
+       $transactions = Transaction::query()
+    ->with([
+        'category:id,name'
+    ])
+    ->when($search, function ($query) use ($search) {
+        $query->where('title', 'like', '%' . $search . '%');
+    })
+    ->latest()
+    ->paginate(5);
 
         /*
         |--------------------------------------------------------------------------
-        | Menghitung total pemasukan
+        | Total Keseluruhan
         |--------------------------------------------------------------------------
         */
 
-        $totalIncome = Transaction::whereHas('category', function ($query) {
+        $totalIncome = Transaction::where('type', 'pemasukan')
+            ->sum('amount');
 
-            $query->where('type', 'income');
-
-        })->sum('amount');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Menghitung total pengeluaran
-        |--------------------------------------------------------------------------
-        */
-
-        $totalExpense = Transaction::whereHas('category', function ($query) {
-
-            $query->where('type', 'expense');
-
-        })->sum('amount');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Menghitung saldo
-        |--------------------------------------------------------------------------
-        */
+        $totalExpense = Transaction::where('type', 'pengeluaran')
+            ->sum('amount');
 
         $balance = $totalIncome - $totalExpense;
+
         /*
-|--------------------------------------------------------------------------
-| RINGKASAN MINGGUAN
-|--------------------------------------------------------------------------
-*/
+        |--------------------------------------------------------------------------
+        | Ringkasan Mingguan
+        |--------------------------------------------------------------------------
+        */
 
         $weeklyIncome = Transaction::where('type', 'pemasukan')
-            ->whereBetween(
-                'transaction_date',
-                [
-                    now()->startOfWeek(),
-                    now()->endOfWeek()
-                ]
-            )
+            ->whereBetween('transaction_date', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ])
             ->sum('amount');
 
         $weeklyExpense = Transaction::where('type', 'pengeluaran')
-            ->whereBetween(
-                'transaction_date',
-                [
-                    now()->startOfWeek(),
-                    now()->endOfWeek()
-                ]
-            )
+            ->whereBetween('transaction_date', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ])
             ->sum('amount');
 
         /*
         |--------------------------------------------------------------------------
-        | RINGKASAN BULANAN
+        | Ringkasan Bulanan
         |--------------------------------------------------------------------------
         */
 
@@ -117,10 +90,9 @@ class TransactionController extends Controller
             ->whereYear('transaction_date', now()->year)
             ->sum('amount');
 
-
         /*
         |--------------------------------------------------------------------------
-        | RINGKASAN TAHUNAN
+        | Ringkasan Tahunan
         |--------------------------------------------------------------------------
         */
 
@@ -132,30 +104,57 @@ class TransactionController extends Controller
             ->whereYear('transaction_date', now()->year)
             ->sum('amount');
 
-        // Kirim data ke view
+            $chartData = DB::table('transactions')
+    ->selectRaw("
+        MONTH(transaction_date) as month_number,
+        DATE_FORMAT(transaction_date, '%b') as month,
+        SUM(CASE WHEN type = 'pemasukan' THEN amount ELSE 0 END) as pemasukan,
+        SUM(CASE WHEN type = 'pengeluaran' THEN amount ELSE 0 END) as pengeluaran
+    ")
+    ->groupByRaw("
+        MONTH(transaction_date),
+        DATE_FORMAT(transaction_date, '%b')
+    ")
+    ->orderBy('month_number')
+    ->get();
+
+    $expenseByCategory = DB::table('transactions')
+    ->join(
+        'categories',
+        'transactions.category_id',
+        '=',
+        'categories.id'
+    )
+    ->where('transactions.type', 'pengeluaran')
+    ->selectRaw('
+        categories.name as category,
+        SUM(transactions.amount) as total
+    ')
+    ->groupBy('categories.name')
+    ->orderByDesc('total')
+    ->get();
+
         return view('transactions.index', compact(
             'transactions',
-
             'totalIncome',
             'totalExpense',
             'balance',
-
             'weeklyIncome',
             'weeklyExpense',
-
             'monthlyIncome',
             'monthlyExpense',
-
             'yearlyIncome',
-            'yearlyExpense'
+            'yearlyExpense',
+            'chartData',
+            'expenseByCategory',
         ));
     }
 
     /*
-|--------------------------------------------------------------------------
-| Detail Laporan
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | Detail Laporan
+    |--------------------------------------------------------------------------
+    */
 
     public function report($period)
     {
@@ -163,32 +162,23 @@ class TransactionController extends Controller
 
             case 'weekly':
 
-    $transactions = Transaction::with('category')
-        ->whereBetween(
-            'transaction_date',
-            [
-                now()->startOfWeek(),
-                now()->endOfWeek()
-            ]
-        )
-        ->latest()
-        ->get();
+                $transactions = Transaction::with('category')
+                    ->whereBetween('transaction_date', [
+                        now()->startOfWeek(),
+                        now()->endOfWeek()
+                    ])
+                    ->latest()
+                    ->get();
 
-    $title = 'Laporan Mingguan';
+                $title = 'Laporan Mingguan';
 
-    break;
+                break;
 
             case 'monthly':
 
                 $transactions = Transaction::with('category')
-                    ->whereMonth(
-                        'transaction_date',
-                        now()->month
-                    )
-                    ->whereYear(
-                        'transaction_date',
-                        now()->year
-                    )
+                    ->whereMonth('transaction_date', now()->month)
+                    ->whereYear('transaction_date', now()->year)
                     ->latest()
                     ->get();
 
@@ -199,10 +189,7 @@ class TransactionController extends Controller
             case 'yearly':
 
                 $transactions = Transaction::with('category')
-                    ->whereYear(
-                        'transaction_date',
-                        now()->year
-                    )
+                    ->whereYear('transaction_date', now()->year)
                     ->latest()
                     ->get();
 
@@ -231,20 +218,18 @@ class TransactionController extends Controller
 
         $balance = $income - $expense;
 
-        return view(
-            'transactions.report',
-            compact(
-                'transactions',
-                'title',
-                'income',
-                'expense',
-                'balance'
-            )
-        );
+        return view('transactions.report', compact(
+            'transactions',
+            'title',
+            'income',
+            'expense',
+            'balance'
+        ));
     }
+
     /*
     |--------------------------------------------------------------------------
-    | Form tambah data
+    | Form Tambah Data
     |--------------------------------------------------------------------------
     */
 
@@ -266,39 +251,23 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
-
-            'title' => 'required',
-
-            'type' => 'required',
-
-            'category_id' => 'required',
-
-            'amount' => 'required|numeric',
-
+            'title'            => 'required',
+            'type'             => 'required',
+            'category_id'      => 'required',
+            'amount'           => 'required|numeric',
             'transaction_date' => 'required',
-
         ]);
 
-        // Simpan data transaksi
         Transaction::create([
-
-            'title' => $request->title,
-
-            'type' => $request->type,
-
+            'title'            => $request->title,
+            'type'             => $request->type,
             'category_id' => $request->category_id,
-
-            'amount' => $request->amount,
-
+            'amount'           => $request->amount,
             'transaction_date' => $request->transaction_date,
-
-            'description' => $request->description,
-
+            'description'      => $request->description,
         ]);
 
-        // Redirect kembali
         return redirect()
             ->route('transactions.index')
             ->with('success', 'Transaksi berhasil ditambahkan');
@@ -312,10 +281,10 @@ class TransactionController extends Controller
 
     public function edit(Transaction $transaction)
     {
-        // Ambil semua kategori
+        $transaction->load('category');
+
         $categories = Category::all();
 
-        // Kirim data transaksi + kategori ke halaman edit
         return view('transactions.edit', [
             'transaction' => $transaction,
             'categories' => $categories
@@ -328,43 +297,30 @@ class TransactionController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    // Mengupdate data transaksi
     public function update(Request $request, Transaction $transaction)
     {
         $request->validate([
-
-            'title' => 'required',
-
-            'type' => 'required',
-
-            'category_id' => 'required',
-
-            'amount' => 'required|numeric',
-
+            'title'            => 'required',
+            'type'             => 'required',
+            'category_id'      => 'required',
+            'amount'           => 'required|numeric',
             'transaction_date' => 'required',
-
         ]);
 
         $transaction->update([
-
-            'title' => $request->title,
-
-            'type' => $request->type,
-
+            'title'            => $request->title,
+            'type'             => $request->type,
             'category_id' => $request->category_id,
-
-            'amount' => $request->amount,
-
+            'amount'           => $request->amount,
             'transaction_date' => $request->transaction_date,
-
-            'description' => $request->description,
-
+            'description'      => $request->description,
         ]);
 
         return redirect()
             ->route('transactions.index')
             ->with('success', 'Data berhasil diupdate');
     }
+
     /*
     |--------------------------------------------------------------------------
     | Hapus Data
@@ -373,11 +329,11 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
-        // Hapus transaksi
         $transaction->delete();
 
         return redirect()
             ->route('transactions.index')
             ->with('success', 'Data berhasil dihapus');
     }
+
 }

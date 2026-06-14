@@ -2,219 +2,273 @@
 
 @section('content')
 
-    ```
-    <!-- ===================================================== -->
-    <!-- HEADER HALAMAN                                        -->
-    <!-- ===================================================== -->
+<div class="report-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center">
 
-        <!-- Judul otomatis:
-             Laporan Mingguan
-             Laporan Bulanan
-             Laporan Tahunan -->
-        <h2 class="fw-bold">
+    <div class="d-flex align-items-center gap-3">
 
-            {{ $title }}
-
-        </h2>
-
-        <!-- Tombol kembali ke dashboard utama -->
-        <a href="{{ route('transactions.index') }}" class="btn btn-secondary">
-
-            ← Kembali
-
-        </a>
-
-    </div>
-
-    <!-- ===================================================== -->
-    <!-- DASHBOARD STATISTIK LAPORAN                           -->
-    <!-- ===================================================== -->
-
-    <div class="row g-3 mb-4">
-
-        <!-- Total Pemasukan -->
-        <div class="col-md-4">
-
-            <div class="card border-0 shadow-lg bg-success text-white">
-
-                <div class="card-body">
-
-                    <h6>Total Pemasukan</h6>
-
-                    <h3 class="fw-bold">
-
-                        Rp {{ number_format($income, 0, ',', '.') }}
-
-                    </h3>
-
-                </div>
-
-            </div>
-
+        <div class="report-icon">
+            📊
         </div>
 
-        <!-- Total Pengeluaran -->
-        <div class="col-md-4">
+        <div>
 
-            <div class="card border-0 shadow-lg bg-danger text-white">
+            <h1 class="page-title mb-1">
+                {{ $title }}
+            </h1>
 
-                <div class="card-body">
-
-                    <h6>Total Pengeluaran</h6>
-
-                    <h3 class="fw-bold">
-
-                        Rp {{ number_format($expense, 0, ',', '.') }}
-
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Sisa Saldo -->
-        <div class="col-md-4">
-
-            <div class="card border-0 shadow-lg bg-primary text-white">
-
-                <div class="card-body">
-
-                    <h6>Sisa Saldo</h6>
-
-                    <h3 class="fw-bold">
-
-                        Rp {{ number_format($balance, 0, ',', '.') }}
-
-                    </h3>
-
-                </div>
-
-            </div>
+            <p class="text-secondary mb-0">
+                Ringkasan transaksi pada periode yang dipilih
+            </p>
 
         </div>
 
     </div>
 
-    <!-- ===================================================== -->
-    <!-- TABEL LAPORAN                                         -->
-    <!-- ===================================================== -->
+    <a href="{{ route('transactions.index') }}"
+       class="btn-action-edit">
 
-    <div class="card shadow border-0">
+        ← Kembali
 
-        <div class="card-body">
+    </a>
 
-            <div class="table-responsive">
+</div>
 
-                <table class="table table-hover align-middle">
+</div>
 
-                    <thead class="table-primary">
+<div class="card period-card mb-5">
 
-                        <tr>
+<div class="card-body">
 
-                            <th>No</th>
-                            <th>Judul</th>
-                            <th>Kategori</th>
-                            <th>Jenis</th>
-                            <th>Jumlah</th>
-                            <th>Tanggal</th>
+    <div class="d-flex justify-content-between align-items-center">
 
-                        </tr>
+        <div>
 
-                    </thead>
+            <small class="text-secondary">
+                Periode Laporan
+            </small>
 
-                    <tbody>
+            <h4 class="fw-bold mb-0">
 
-                        @forelse($transactions as $item)
+                @if(Str::contains($title, 'Mingguan'))
+                    Minggu Ini
+                @elseif(Str::contains($title, 'Bulanan'))
+                    Bulan Ini
+                @else
+                    Tahun Ini
+                @endif
 
-                            <tr>
+            </h4>
 
-                                <!-- Nomor -->
-                                <td>
+        </div>
 
-                                    {{ $loop->iteration }}
+        <div class="fs-3">
+            📅
+        </div>
 
-                                </td>
+    </div>
 
-                                <!-- Judul -->
-                                <td>
+</div>
 
-                                    {{ $item->title }}
+</div>
 
-                                </td>
+<div class="row g-4 mb-5">
 
-                                <!-- Kategori -->
-                                <td>
+<div class="col-md-4">
 
-                                    {{ $item->category->name ?? '-' }}
+    <div class="stat-card">
 
-                                </td>
+        <div class="d-flex justify-content-between align-items-center">
 
-                                <!-- Jenis transaksi -->
-                                <td>
+            <div>
 
-                                    @if($item->type == 'pemasukan')
+                <div class="stat-title">
+                    Total Pemasukan
+                </div>
 
-                                        <span class="badge bg-success">
+                <div class="stat-value text-income">
+                    Rp {{ number_format($income, 0, ',', '.') }}
+                </div>
 
-                                            ⬆ Pemasukan
+            </div>
 
-                                        </span>
-
-                                    @else
-
-                                        <span class="badge bg-danger">
-
-                                            ⬇ Pengeluaran
-
-                                        </span>
-
-                                    @endif
-
-                                </td>
-
-                                <!-- Nominal -->
-                                <td>
-
-                                    Rp {{ number_format($item->amount, 0, ',', '.') }}
-
-                                </td>
-
-                                <!-- Tanggal -->
-                                <td>
-
-                                    {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-m-Y') }}
-
-                                </td>
-
-                            </tr>
-
-                        @empty
-
-                            <tr>
-
-                                <td colspan="6" class="text-center text-muted">
-
-                                    Tidak ada transaksi pada periode ini.
-
-                                </td>
-
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
+            <div style="font-size:40px">
+                📈
             </div>
 
         </div>
 
     </div>
-    ```
+
+</div>
+
+<div class="col-md-4">
+
+    <div class="stat-card">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <div class="stat-title">
+                    Total Pengeluaran
+                </div>
+
+                <div class="stat-value text-expense">
+                    Rp {{ number_format($expense, 0, ',', '.') }}
+                </div>
+
+            </div>
+
+            <div style="font-size:40px">
+                📉
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-md-4">
+
+    <div class="stat-card">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <div class="stat-title">
+                    Sisa Saldo
+                </div>
+
+                <div class="stat-value text-warning">
+                    Rp {{ number_format($balance, 0, ',', '.') }}
+                </div>
+
+            </div>
+
+            <div style="font-size:40px">
+                💰
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<div class="card overflow-hidden">
+
+<div class="card-header border-0 py-4">
+
+    <h4 class="table-section-title mb-0">
+        📋 Daftar Transaksi
+    </h4>
+
+</div>
+
+<div class="table-responsive">
+
+    <table class="table table-dark-luxury align-middle mb-0">
+
+        <thead>
+
+            <tr>
+
+                <th>No</th>
+                <th>Judul</th>
+                <th>Kategori</th>
+                <th>Jenis</th>
+                <th>Jumlah</th>
+                <th>Tanggal</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @forelse($transactions as $item)
+
+                <tr>
+
+                    <td>{{ $loop->iteration }}</td>
+
+                    <td class="transaction-title">
+                        {{ $item->title }}
+                    </td>
+
+                    <td class="category-column">
+                        {{ $item->category->name ?? '-' }}
+                    </td>
+
+                    <td>
+
+                        @if($item->type == 'pemasukan')
+
+                            <span class="income-badge">
+                                ↑ Pemasukan
+                            </span>
+
+                        @else
+
+                            <span class="expense-badge">
+                                ↓ Pengeluaran
+                            </span>
+
+                        @endif
+
+                    </td>
+
+                    <td>
+                        Rp {{ number_format($item->amount, 0, ',', '.') }}
+                    </td>
+
+                    <td>
+                        {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-m-Y') }}
+                    </td>
+
+                </tr>
+
+            @empty
+
+                <tr>
+
+                    <td colspan="6">
+
+                        <div class="empty-state text-center">
+
+                            <div class="empty-icon">
+                                📂
+                            </div>
+
+                            <h4 class="mt-3">
+                                Tidak ada transaksi
+                            </h4>
+
+                            <p class="text-secondary mb-0">
+                                Belum ada transaksi pada periode ini.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            @endforelse
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+</div>
 
 @endsection

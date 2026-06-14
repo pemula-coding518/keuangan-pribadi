@@ -21,21 +21,14 @@ class Transaction extends Model
     | Field yang boleh diisi
     */
 
-    protected $fillable = [
+   protected $fillable = [
+    'title',
+    'type',
+    'category_id',
+    'amount',
+    'transaction_date'
 
-        'title',
-
-        'type',
-
-        'category_id',
-
-        'amount',
-
-        'transaction_date',
-
-        'description',
-
-    ];
+];
 
     /*
     |--------------------------------------------------------------------------
@@ -43,8 +36,12 @@ class Transaction extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
+   public function category()
+{
+    return $this->belongsTo(
+        Category::class,
+        'category_id',
+        'id'
+    );
+}
 }

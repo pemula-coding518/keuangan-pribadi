@@ -1,6 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="mb-5">
+
+    <h1 class="page-title fw-bold mb-2"
+    style="
+        color:#ffffff;
+        text-shadow:0 2px 10px rgba(0,0,0,.3);
+    ">
+    Dashboard Keuangan
+</h1>
+
+<p style="
+    color:rgba(255,255,255,.85);
+    font-size:1.05rem;
+    margin-bottom:0;
+">
+    Kelola pemasukan dan pengeluaran dengan lebih cerdas.
+</p>
+
+</div>
 
     <!-- ===================================================== -->
     <!-- HEADER HALAMAN                                        -->
@@ -8,91 +27,77 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <h2 class="fw-bold">
+        <h2 class="table-section-title">
 
-            📊 Data Keuangan
+    <i class="bi bi-bar-chart-line-fill me-2"></i>
+    Data Keuangan
 
-        </h2>
+</h2>
 
         <!-- Tombol tambah transaksi -->
-        <a href="{{ route('transactions.create') }}" class="btn btn-primary">
-
-            + Tambah Data
-
-        </a>
-
+        <a href="{{ route('transactions.create') }}"
+   class="btn add-btn">
+   + Tambah Data
+</a>
     </div>
 
     <!-- ===================================================== -->
     <!-- DASHBOARD STATISTIK                                   -->
     <!-- ===================================================== -->
 
-    <div class="row g-3 mb-4">
+    <div class="row g-4 mb-5">
 
-        <!-- Total Pemasukan -->
-        <div class="col-md-4">
+    <div class="col-md-4">
 
-            <div class="card border-0 shadow-lg bg-success text-white">
+        <div class="stat-card">
 
-                <div class="card-body">
-
-                    <h6>Total Pemasukan</h6>
-
-                    <h3 class="fw-bold">
-
-                        Rp {{ number_format($totalIncome, 0, ',', '.') }}
-
-                    </h3>
-
-                </div>
-
+            <div class="stat-title">
+                Total Saldo
             </div>
 
-        </div>
-
-        <!-- Total Pengeluaran -->
-        <div class="col-md-4">
-
-            <div class="card border-0 shadow-lg bg-danger text-white">
-
-                <div class="card-body">
-
-                    <h6>Total Pengeluaran</h6>
-
-                    <h3 class="fw-bold">
-
-                        Rp {{ number_format($totalExpense, 0, ',', '.') }}
-
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Sisa Saldo -->
-        <div class="col-md-4">
-
-            <div class="card border-0 shadow-lg bg-primary text-white">
-
-                <div class="card-body">
-
-                    <h6>Sisa Saldo</h6>
-
-                    <h3 class="fw-bold">
-
-                        Rp {{ number_format($balance, 0, ',', '.') }}
-
-                    </h3>
-
-                </div>
-
+            <div class="stat-value text-warning">
+                Rp {{ number_format($balance,0,',','.') }}
             </div>
 
         </div>
 
     </div>
+
+    <div class="col-md-4">
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Total Pemasukan
+            </div>
+
+            <div class="stat-value text-income">
+                Rp {{ number_format($totalIncome,0,',','.') }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Total Pengeluaran
+            </div>
+
+            <div class="stat-value text-expense">
+                Rp {{ number_format($totalExpense,0,',','.') }}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+        
 
     <!-- ===================================================== -->
     <!-- DASHBOARD RINGKASAN KEUANGAN                          -->
@@ -118,11 +123,10 @@
             -->
             <a href="{{ route('transactions.report', 'weekly') }}" class="text-decoration-none text-dark">
 
-                <div class="card shadow border-0 h-100">
+               <div class="card report-card">
+    <div class="card-body report-content">
 
-                    <div class="card-body">
-
-                        <h5 class="fw-bold">
+                        <h5 class="stats-label">
 
                             📅 Minggu Ini
 
@@ -131,7 +135,7 @@
                         <hr>
 
                         <!-- Total pemasukan minggu ini -->
-                        <p class="text-success mb-1">
+                        <p class="stats-value">
 
                             Pemasukan :
                             Rp {{ number_format($weeklyIncome, 0, ',', '.') }}
@@ -139,7 +143,7 @@
                         </p>
 
                         <!-- Total pengeluaran minggu ini -->
-                        <p class="text-danger mb-3">
+                        <p class="stats-value-loss">
 
                             Pengeluaran :
                             Rp {{ number_format($weeklyExpense, 0, ',', '.') }}
@@ -153,7 +157,7 @@
 
                         </small>
 
-                    </div>
+</div>
 
                 </div>
 
@@ -169,11 +173,12 @@
 
             <a href="{{ route('transactions.report', 'monthly') }}" class="text-decoration-none text-dark">
 
-                <div class="card shadow border-0 h-100">
+                <div class="card report-card">
+    <div class="card-body report-content">
 
-                    <div class="card-body">
+                    
 
-                        <h5 class="fw-bold">
+                        <h5 class="stats-label">
 
                             📆 Bulan Ini
 
@@ -181,14 +186,14 @@
 
                         <hr>
 
-                        <p class="text-success mb-1">
+                        <p class="stats-value">
 
                             Pemasukan :
                             Rp {{ number_format($monthlyIncome, 0, ',', '.') }}
 
                         </p>
 
-                        <p class="text-danger mb-3">
+                        <p class="stats-value-loss">
 
                             Pengeluaran :
                             Rp {{ number_format($monthlyExpense, 0, ',', '.') }}
@@ -197,11 +202,11 @@
 
                         <small class="text-primary">
 
-                            Lihat Detail Laporan →
+                            Lihat Detail Laporan ->
 
                         </small>
 
-                    </div>
+</div>
 
                 </div>
 
@@ -217,11 +222,12 @@
 
             <a href="{{ route('transactions.report', 'yearly') }}" class="text-decoration-none text-dark">
 
-                <div class="card shadow border-0 h-100">
+               <div class="card report-card">
+    <div class="card-body report-content">
 
-                    <div class="card-body">
+                    
 
-                        <h5 class="fw-bold">
+                        <h5 class="stats-label">
 
                             🗓️ Tahun Ini
 
@@ -229,14 +235,14 @@
 
                         <hr>
 
-                        <p class="text-success mb-1">
+                        <p class="stats-value">
 
                             Pemasukan :
                             Rp {{ number_format($yearlyIncome, 0, ',', '.') }}
 
                         </p>
 
-                        <p class="text-danger mb-3">
+                        <p class="stats-value-loss">
 
                             Pengeluaran :
                             Rp {{ number_format($yearlyExpense, 0, ',', '.') }}
@@ -249,7 +255,7 @@
 
                         </small>
 
-                    </div>
+</div>
 
                 </div>
 
@@ -275,19 +281,68 @@
 
     @endif
 
+<div class="row mt-4">
+
+    <div class="col-lg-8 mb-4">
+
+        <div class="dashboard-card">
+
+            <div class="card-body">
+
+                <h5 class="section-title mb-4">
+                    📈 Tren Keuangan
+                </h5>
+
+                <canvas id="financeChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-4 mb-4">
+
+        <div class="dashboard-card">
+
+            <div class="card-body">
+
+                <h5 class="section-title mb-4">
+                    📊 Pengeluaran per Kategori
+                </h5>
+
+                <canvas id="categoryChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
     <!-- ===================================================== -->
     <!-- TABEL TRANSAKSI                                       -->
     <!-- ===================================================== -->
 
-    <div class="card shadow border-0">
+    <div class="card overflow-hidden">
 
-        <div class="card-body">
+    <div class="card-header border-0 py-4">
 
-            <div class="table-responsive">
+        <h4 class="table-section-title mb-0">
 
-                <table class="table table-hover align-middle">
+            <i class="bi bi-receipt-cutoff me-2"></i>
+            Daftar Transaksi
 
-                    <thead class="table-primary">
+        </h4>
+
+    </div>
+
+    <div class="table-responsive">
+                <table class="table table-dark-luxury align-middle mb-0">
+
+                    <thead>
 
                         <tr>
 
@@ -321,25 +376,21 @@
                                             </td>
 
                                             <!-- Judul -->
-                                            <td>
+                                            <td class="transaction-title">
 
-                                                {{ $item->title }}
+    {{ $item->title }}
 
-                                            </td>
-
+</td>
                                             <!-- Kategori -->
-                                            <td>
-
-                                                {{ $item->category->name ?? '-' }}
-
-                                            </td>
-
+                                            <<td class="category-column">
+    {{ $item->category->name ?? '-' }}
+</td>
                                             <!-- Jenis -->
                                             <td>
 
                                                 @if($item->type == 'pemasukan')
 
-                                                    <span class="badge bg-success">
+                                                    <span class="income-badge">
 
                                                         ⬆ Pemasukan
 
@@ -347,7 +398,7 @@
 
                                                 @else
 
-                                                    <span class="badge bg-danger">
+                                                    <span class="expense-badge">
 
                                                         ⬇ Pengeluaran
 
@@ -371,47 +422,61 @@
 
                                             </td>
 
-                                            <!-- Tombol Aksi -->
                                             <td>
 
-                                                <!-- Tombol Edit -->
-                                                <a href="{{ route('transactions.edit', $item->id) }}"
-                                                    class="btn btn-outline-warning btn-sm">
+    <div class="d-flex gap-2">
 
-                                                    ✏ Edit
+        <a href="{{ route('transactions.edit', $item->id) }}"
+           class="btn-action-edit">
 
-                                                </a>
+            ✏ Edit
 
-                                                <!-- Form Hapus -->
-                                                <form action="{{ route('transactions.destroy', $item->id) }}" method="POST"
-                                                    class="d-inline">
+        </a>
 
-                                                    @csrf
-                                                    @method('DELETE')
+        <form action="{{ route('transactions.destroy', $item->id) }}"
+              method="POST">
 
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                        onclick="return confirm('Yakin ingin menghapus data ini?')">
+            @csrf
+            @method('DELETE')
 
-                                                        🗑 Hapus
+            <button
+                type="submit"
+                class="btn-action-delete"
+                onclick="return confirm('Yakin ingin menghapus data ini?')">
 
-                                                    </button>
+                🗑 Hapus
 
-                                                </form>
+            </button>
 
-                                            </td>
+        </form>
 
-                                        </tr>
+    </div>
+
+</td>
 
                         @empty
 
                             <tr>
 
-                                <td colspan="7" class="text-center text-muted">
+                               <td colspan="7">
 
-                                    Data transaksi belum tersedia.
+    <div class="empty-state text-center">
 
-                                </td>
+        <div class="empty-icon">
+            📂
+        </div>
 
+        <h4 class="mt-3">
+            Belum Ada Transaksi
+        </h4>
+
+        <p class="text-secondary mb-0">
+            Silakan tambahkan transaksi pertama Anda.
+        </p>
+
+    </div>
+
+</td>
                             </tr>
 
                         @endforelse
@@ -435,5 +500,199 @@
         {{ $transactions->links() }}
 
     </div>
+
+    <style>
+
+.page-title{
+    font-size: 2rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+.form-card{
+    background: #fff;
+    border-radius: 20px;
+    padding: 35px;
+    border: none;
+    box-shadow: 0 15px 35px rgba(0,0,0,.08);
+}
+
+.form-label{
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 8px;
+}
+
+.form-control,
+.form-select{
+    border-radius: 12px;
+    border: 1px solid #dfe3e8;
+    padding: 12px 15px;
+    transition: all .3s ease;
+    background: #fafbfc;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 .25rem rgba(13,110,253,.15);
+    background: #fff;
+}
+
+.form-control::placeholder{
+    color: #9ca3af;
+}
+
+.btn-save{
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+}
+
+.btn-back{
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+}
+
+.form-header{
+    margin-bottom: 30px;
+}
+
+.form-header h2{
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.form-header p{
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+.add-btn{
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+    color:white !important;
+    border:none;
+    font-weight:600;
+    padding:12px 22px;
+    border-radius:12px;
+    transition:all .3s ease;
+    box-shadow:0 8px 20px rgba(79,70,229,.35);
+}
+
+.add-btn:hover{
+    color:white !important;
+    transform:translateY(-2px);
+    box-shadow:0 12px 25px rgba(79,70,229,.45);
+}
+
+.add-btn:focus{
+    color:white !important;
+}
+
+.stats-label{
+    color:rgba(255,255,255,.85);
+    font-size:.95rem;
+    font-weight:600;
+    letter-spacing:.5px;
+}
+
+.stats-value{
+    color:rgba(5, 247, 9, 0.85);
+    font-weight:600;
+}
+.stats-value-loss{
+    color:red;
+    font-weight:600;
+}
+.report-card{
+    border-radius:16px;
+}
+
+.report-content{
+    padding:30px;
+    max-width:90%;
+    margin:0 auto;
+}
+</style>
+
+@push('scripts')
+
+<script>
+    const months = @json($chartData->pluck('month'));
+const incomes = @json($chartData->pluck('pemasukan'));
+const expenses = @json($chartData->pluck('pengeluaran'));
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const financeChart =
+        document.getElementById('financeChart');
+
+    if (financeChart) {
+
+        new Chart(financeChart, {
+    type: 'line',
+    data: {
+        labels: months,
+        datasets: [
+            {
+                label: 'Pemasukan',
+                data: incomes,
+                tension: 0.4
+            },
+            {
+                label: 'Pengeluaran',
+                data: expenses,
+                tension: 0.4
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+   const categoryLabels = @json($expenseByCategory->pluck('category'));
+const categoryTotals = @json($expenseByCategory->pluck('total'));
+
+new Chart(categoryChart, {
+    type: 'doughnut',
+    data: {
+        labels: categoryLabels,
+        datasets: [{
+            data: categoryTotals
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+    }
+
+});
+const categoryLabels =
+    @json($expenseByCategory->pluck('category'));
+
+const categoryTotals =
+    @json($expenseByCategory->pluck('total'));
+
+</script>
+
+@endpush
 
 @endsection
