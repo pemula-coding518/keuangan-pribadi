@@ -2,106 +2,121 @@
 
 @section('content')
 
-<div class="container">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    <h2>
-        Kategori: {{ $category->name }}
-    </h2>
+    <div>
+        <h1 class="page-title">
+            📁 {{ $category->name }}
+        </h1>
 
-<p>
-    Jenis:
-    <strong>
-        {{ ucfirst($category->type) }}
-    </strong>
-</p>
+        <p class="page-subtitle">
+            Detail kategori transaksi
+        </p>
+    </div>
 
-<a href="{{ route('categories.index') }}"
-   class="btn btn-secondary mb-3">
-    ← Kembali ke Daftar Kategori
-</a>
+    <a href="{{ route('categories.index') }}"
+       class="btn btn-secondary">
+        ← Kembali
+    </a>
 
-    <div class="row mb-4">
+</div>
+
+{{-- INFO CARD --}}
+<div class="row g-4 mb-4">
 
     <div class="col-md-6">
 
-        <div class="card">
-            <div class="card-body">
+        <div class="stat-card">
 
-                <h6>Total Transaksi</h6>
-
-                <h3>
-                    {{ $totalTransactions }}
-                </h3>
-
+            <div class="stat-title">
+                Total Transaksi
             </div>
+
+            <div class="stat-value">
+                {{ $totalTransactions }}
+            </div>
+
         </div>
 
     </div>
 
     <div class="col-md-6">
 
-        <div class="card">
-            <div class="card-body">
+        <div class="stat-card">
 
-                <h6>Total Nominal</h6>
-
-                <h3>
-                    Rp {{ number_format($totalAmount,0,',','.') }}
-                </h3>
-
+            <div class="stat-title">
+                Total Nominal
             </div>
+
+            <div class="stat-value">
+                Rp {{ number_format($totalAmount,0,',','.') }}
+            </div>
+
         </div>
 
     </div>
 
 </div>
 
-    <table class="table">
+{{-- TABLE --}}
+<div class="card overflow-hidden">
 
-        <thead>
-            <tr>
-                <th>Tanggal</th>
-                <th>Judul</th>
-                <th>Jumlah</th>
-            </tr>
-        </thead>
+    <div class="card-header">
+        <h4 class="section-title">📊 Transaksi dalam Kategori</h4>
+    </div>
 
-        <tbody>
+    <div class="table-responsive">
 
-        @forelse($transactions as $transaction)
+        <table class="table align-middle mb-0">
 
-            <tr>
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Judul</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
 
-                <td>
-                    {{ $transaction->transaction_date }}
-                </td>
+            <tbody>
 
-                <td>
-                    {{ $transaction->title }}
-                </td>
+            @forelse($transactions as $transaction)
 
-                <td>
-                    Rp {{ number_format($transaction->amount,0,',','.') }}
-                </td>
+                <tr>
 
-            </tr>
+                    <td>
+                        {{ \Carbon\Carbon::parse($transaction->transaction_date)->format('d-m-Y') }}
+                    </td>
 
-        @empty
+                    <td class="transaction-title">
+                        {{ $transaction->title }}
+                    </td>
 
-            <tr>
-                <td colspan="3">
-                    Tidak ada transaksi
-                </td>
-            </tr>
+                    <td>
+                        Rp {{ number_format($transaction->amount,0,',','.') }}
+                    </td>
 
-        @endforelse
+                </tr>
 
-        </tbody>
+            @empty
 
-    </table>
+                <tr>
+                    <td colspan="3" class="text-center text-secondary py-4">
+                        Tidak ada transaksi
+                    </td>
+                </tr>
 
+            @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="mt-4">
     {{ $transactions->links() }}
-
 </div>
 
 @endsection

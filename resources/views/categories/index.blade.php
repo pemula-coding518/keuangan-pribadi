@@ -2,124 +2,171 @@
 
 @section('content')
 
-<div class="container">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    <h2>Daftar Kategori</h2>
-     <div class="row mb-4">
+    <div>
+        <h1 class="page-title fw-bold mb-1">
+            📁 Kategori Transaksi
+        </h1>
 
-    <div class="col-md-6">
-        <div class="card border-danger">
-            <div class="card-body">
-
-                <h6>Kategori Pengeluaran Terbesar</h6>
-
-                @if($topExpense)
-
-                    <h4>{{ $topExpense->name }}</h4>
-
-                    <strong>
-                        Rp {{ number_format($topExpense->transactions_sum_amount ?? 0,0,',','.') }}
-                    </strong>
-
-                @else
-
-                    <p>Belum ada data</p>
-
-                @endif
-
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="card border-success">
-            <div class="card-body">
-
-                <h6>Kategori Pemasukan Terbesar</h6>
-
-                @if($topIncome)
-
-                    <h4>{{ $topIncome->name }}</h4>
-
-                    <strong>
-                        Rp {{ number_format($topIncome->transactions_sum_amount ?? 0,0,',','.') }}
-                    </strong>
-
-                @else
-
-                    <p>Belum ada data</p>
-
-                @endif
-
-            </div>
-        </div>
+        <p class="page-subtitle">
+            Kelola semua kategori pemasukan dan pengeluaran
+        </p>
     </div>
 
 </div>
-    <div class="card mb-3">
-    <div class="card-body">
-       <h5>Total Seluruh Transaksi</h5>
 
-<h3>{{ $totalTransactions }}</h3>
+{{-- STAT KATEGORI TERBESAR --}}
+<div class="row g-4 mb-4">
 
-<small>
-    Semua transaksi dari seluruh kategori
-</small>
+    <div class="col-md-6">
+
+        <div class="stat-card danger-card">
+
+            <div class="stat-title">
+                Kategori Pengeluaran Terbesar
+            </div>
+
+            @if($topExpense)
+
+                <div class="stat-value text-expense">
+                    {{ $topExpense->name }}
+                </div>
+
+                <div class="mt-2 text-secondary">
+                    Rp {{ number_format($topExpense->transactions_sum_amount ?? 0,0,',','.') }}
+                </div>
+
+            @else
+                <div class="text-secondary">
+                    Belum ada data
+                </div>
+            @endif
+
+        </div>
+
     </div>
+
+    <div class="col-md-6">
+
+        <div class="stat-card success-card">
+
+            <div class="stat-title">
+                Kategori Pemasukan Terbesar
+            </div>
+
+            @if($topIncome)
+
+                <div class="stat-value text-income">
+                    {{ $topIncome->name }}
+                </div>
+
+                <div class="mt-2 text-secondary">
+                    Rp {{ number_format($topIncome->transactions_sum_amount ?? 0,0,',','.') }}
+                </div>
+
+            @else
+                <div class="text-secondary">
+                    Belum ada data
+                </div>
+            @endif
+
+        </div>
+
+    </div>
+
 </div>
 
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-    <th>Nama</th>
-    <th>Jenis</th>
-    <th>Jumlah Transaksi</th>
-    <th>Total Nominal</th>
-    <th>Aksi</th>
-</tr>
-        </thead>
+{{-- TOTAL --}}
+<div class="stat-card mb-4">
 
-        <tbody>
+    <div class="stat-title">
+        Total Seluruh Transaksi
+    </div>
 
-       @forelse($categories as $category)
+    <div class="stat-value">
+        {{ $totalTransactions }}
+    </div>
 
-<tr>
-    <td>{{ $category->name }}</td>
+    <div class="text-secondary mt-2">
+        Semua transaksi dari seluruh kategori
+    </div>
 
-<td>{{ ucfirst($category->type) }}</td>
+</div>
 
-<td>{{ $category->transactions_count }}</td>
+{{-- TABLE --}}
+<div class="card overflow-hidden">
 
-<td>
-    Rp {{ number_format($category->transactions_sum_amount ?? 0,0,',','.') }}
-</td>
+    <div class="card-header">
+        <h4 class="section-title">📊 Daftar Kategori</h4>
+    </div>
 
-<td>
+    <div class="table-responsive">
 
-    <a
-        href="{{ route('categories.show', $category) }}"
-        class="btn btn-primary btn-sm">
+        <table class="table align-middle mb-0">
 
-        Lihat
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Jenis</th>
+                    <th>Jumlah Transaksi</th>
+                    <th>Total Nominal</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
 
-    </a>
+            <tbody>
 
-</td>
-</tr>
+            @forelse($categories as $category)
 
-@empty
+                <tr>
 
-<tr>
-    <td colspan="5">
-        Belum ada kategori
-    </td>
-</tr>
+                    <td class="transaction-title">
+                        {{ $category->name }}
+                    </td>
 
-@endforelse
+                    <td>
+                        @if($category->type == 'income')
+                            <span class="income-badge">⬆ Income</span>
+                        @elseif($category->type == 'expense')
+                            <span class="expense-badge">⬇ Expense</span>
+                        @else
+                            <span class="cat-type-badge other">Other</span>
+                        @endif
+                    </td>
 
-        </tbody>
+                    <td>
+                        {{ $category->transactions_count }}
+                    </td>
 
-    </table>
+                    <td>
+                        Rp {{ number_format($category->transactions_sum_amount ?? 0,0,',','.') }}
+                    </td>
+
+                    <td>
+                        <a href="{{ route('categories.show', $category) }}"
+                           class="btn-act-edit">
+                            👁 Lihat
+                        </a>
+                    </td>
+
+                </tr>
+
+            @empty
+
+                <tr>
+                    <td colspan="5" class="text-center text-secondary py-4">
+                        Belum ada kategori
+                    </td>
+                </tr>
+
+            @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </div>
 

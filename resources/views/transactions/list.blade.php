@@ -2,49 +2,53 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<!-- ===================================================== -->
+<!-- PAGE HEADER                                           -->
+<!-- ===================================================== -->
+
+<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
 
     <div>
 
-        <h1 class="page-title fw-bold text-white">
-            💰 Money Tracker
-        </h1>
+        <h1 class="page-title">💰 Money Tracker</h1>
 
-        <p class="text-light opacity-75 mb-0">
+        <p class="page-subtitle">
             Kelola seluruh transaksi keuangan Anda.
         </p>
 
     </div>
 
-    <a href="{{ route('transactions.create') }}"
-       class="btn add-btn">
-
+    <a href="{{ route('transactions.create') }}" class="add-btn">
         + Tambah Data
-
     </a>
 
 </div>
 
+<!-- ===================================================== -->
+<!-- SUCCESS ALERT                                         -->
+<!-- ===================================================== -->
+
 @if(session('success'))
 
-<div class="alert alert-success alert-dismissible fade show">
+    <div class="alert alert-success alert-dismissible fade show">
 
-    {{ session('success') }}
+        {{ session('success') }}
 
-    <button type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 
-</div>
+    </div>
 
 @endif
+
+<!-- ===================================================== -->
+<!-- SEARCH BOX                                            -->
+<!-- ===================================================== -->
 
 <div class="card mb-4">
 
     <div class="card-body">
 
-        <form method="GET"
-              action="{{ route('transactions.list') }}">
+        <form method="GET" action="{{ route('transactions.list') }}">
 
             <div class="row g-2">
 
@@ -55,18 +59,15 @@
                         name="search"
                         class="form-control"
                         placeholder="Cari judul transaksi..."
-                        value="{{ request('search') }}">
+                        value="{{ request('search') }}"
+                    >
 
                 </div>
 
                 <div class="col-md-2">
 
-                    <button
-                        type="submit"
-                        class="btn btn-primary w-100">
-
+                    <button type="submit" class="btn btn-primary w-100">
                         🔍 Cari
-
                     </button>
 
                 </div>
@@ -79,28 +80,29 @@
 
 </div>
 
-<div class="card overflow-hidden">
+<!-- ===================================================== -->
+<!-- TABLE CARD                                            -->
+<!-- ===================================================== -->
 
-    <div class="card-header border-0 py-4">
+<div class="card">
 
-        <h4 class="table-section-title mb-1">
+    <!-- HEADER -->
+    <div class="card-header">
 
-            <i class="bi bi-receipt-cutoff me-2"></i>
-            Daftar Transaksi
+        <h5 class="section-title">
+            📋 Daftar Transaksi
+        </h5>
 
-        </h4>
-
-        <small class="text-secondary">
-
+        <p class="section-sub mb-0">
             Semua pemasukan dan pengeluaran Anda tercatat di sini.
-
-        </small>
+        </p>
 
     </div>
 
+    <!-- TABLE -->
     <div class="table-responsive">
 
-        <table class="table table-dark-luxury align-middle mb-0">
+        <table class="table">
 
             <thead>
 
@@ -112,7 +114,7 @@
                     <th>Jenis</th>
                     <th>Jumlah</th>
                     <th>Tanggal</th>
-                    <th width="18%">Aksi</th>
+                    <th>Aksi</th>
 
                 </tr>
 
@@ -122,127 +124,100 @@
 
                 @forelse($transactions as $item)
 
-                <tr>
+                    <tr>
 
-                    <td>
+                        <td>
+                            {{
+                                ($transactions->currentPage() - 1)
+                                * $transactions->perPage()
+                                + $loop->iteration
+                            }}
+                        </td>
 
-                        {{
-                            ($transactions->currentPage() - 1)
-                            * $transactions->perPage()
-                            + $loop->iteration
-                        }}
+                        <td class="transaction-title">
+                            {{ $item->title }}
+                        </td>
 
-                    </td>
+                        <td class="category-col">
+                            {{ $item->category->name ?? '-' }}
+                        </td>
 
-                    <td class="transaction-title">
+                        <td>
 
-                        {{ $item->title }}
+                            @if($item->type == 'pemasukan')
 
-                    </td>
+                                <span class="income-badge">
+                                    ⬆ Pemasukan
+                                </span>
 
-                    <td class="category-column">
+                            @else
 
-                        {{ $item->category->name ?? '-' }}
+                                <span class="expense-badge">
+                                    ⬇ Pengeluaran
+                                </span>
 
-                    </td>
+                            @endif
 
-                    <td>
+                        </td>
 
-                        @if($item->type == 'pemasukan')
+                        <td>
+                            Rp {{ number_format($item->amount, 0, ',', '.') }}
+                        </td>
 
-                            <span class="income-badge">
+                        <td>
+                            {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-m-Y') }}
+                        </td>
 
-                                ⬆ Pemasukan
+                        <td>
 
-                            </span>
+                            <div class="d-flex gap-2 flex-wrap">
 
-                        @else
+                                <a href="{{ route('transactions.edit', $item->id) }}"
+                                   class="btn-act-edit">
+                                    ✏ Edit
+                                </a>
 
-                            <span class="expense-badge">
+                                <form action="{{ route('transactions.destroy', $item->id) }}"
+                                      method="POST">
 
-                                ⬇ Pengeluaran
+                                    @csrf
+                                    @method('DELETE')
 
-                            </span>
+                                    <button
+                                        type="submit"
+                                        class="btn-act-delete"
+                                        onclick="return confirm('Yakin ingin menghapus data ini?')"
+                                    >
+                                        🗑 Hapus
+                                    </button>
 
-                        @endif
+                                </form>
 
-                    </td>
+                            </div>
 
-                    <td>
+                        </td>
 
-                        Rp {{ number_format($item->amount, 0, ',', '.') }}
-
-                    </td>
-
-                    <td>
-
-                        {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-m-Y') }}
-
-                    </td>
-
-                    <td>
-
-                        <div class="d-flex flex-wrap gap-2">
-
-                            <a href="{{ route('transactions.edit', $item->id) }}"
-                               class="btn-action-edit">
-
-                                ✏ Edit
-
-                            </a>
-
-                            <form action="{{ route('transactions.destroy', $item->id) }}"
-                                  method="POST">
-
-                                @csrf
-                                @method('DELETE')
-
-                                <button
-                                    type="submit"
-                                    class="btn-action-delete"
-                                    onclick="return confirm('Yakin ingin menghapus data ini?')">
-
-                                    🗑 Hapus
-
-                                </button>
-
-                            </form>
-
-                        </div>
-
-                    </td>
-
-                </tr>
+                    </tr>
 
                 @empty
 
-                <tr>
+                    <tr>
 
-                    <td colspan="7">
+                        <td colspan="7">
 
-                        <div class="empty-state text-center py-5">
+                            <div class="empty-state">
 
-                            <div class="empty-icon fs-1">
-                                📂
+                                <div class="ei">📂</div>
+
+                                <h5>Belum Ada Transaksi</h5>
+
+                                <p>Silakan tambahkan transaksi pertama Anda.</p>
+
                             </div>
 
-                            <h4 class="mt-3">
+                        </td>
 
-                                Belum Ada Transaksi
-
-                            </h4>
-
-                            <p class="text-secondary mb-0">
-
-                                Silakan tambahkan transaksi pertama Anda.
-
-                            </p>
-
-                        </div>
-
-                    </td>
-
-                </tr>
+                    </tr>
 
                 @endforelse
 
@@ -254,10 +229,12 @@
 
 </div>
 
+<!-- ===================================================== -->
+<!-- PAGINATION                                            -->
+<!-- ===================================================== -->
+
 <div class="mt-4">
-
     {{ $transactions->links() }}
-
 </div>
 
 @endsection
