@@ -36,7 +36,7 @@ return new class extends Migration {
             |
             */
 
-            $table->enum('type', ['income', 'expense']);
+            $table->enum('type', ['income', 'expense', 'other']);
 
             // created_at & updated_at
             $table->timestamps();

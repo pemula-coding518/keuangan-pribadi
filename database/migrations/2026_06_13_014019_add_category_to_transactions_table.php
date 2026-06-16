@@ -18,7 +18,8 @@ return new class extends Migration {
         // Income / Expense
         $table->enum('type', [
             'income',
-            'expense'
+            'expense',
+            'other'
         ]);
 
         $table->timestamps();

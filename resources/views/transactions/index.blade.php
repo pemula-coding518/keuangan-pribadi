@@ -25,21 +25,18 @@
     <!-- HEADER HALAMAN                                        -->
     <!-- ===================================================== -->
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="mb-4">
 
-        <h2 class="table-section-title">
+    <h2 class="table-section-title">
+        <i class="bi bi-bar-chart-line-fill me-2"></i>
+        Ringkasan Keuangan
+    </h2>
 
-    <i class="bi bi-bar-chart-line-fill me-2"></i>
-    Data Keuangan
+    <p class="text-light opacity-75">
+        Pantau kondisi keuangan Anda secara real-time.
+    </p>
 
-</h2>
-
-        <!-- Tombol tambah transaksi -->
-        <a href="{{ route('transactions.create') }}"
-   class="btn add-btn">
-   + Tambah Data
-</a>
-    </div>
+</div>
 
     <!-- ===================================================== -->
     <!-- DASHBOARD STATISTIK                                   -->
@@ -104,10 +101,8 @@
     <!-- ===================================================== -->
 
     <h4 class="mb-3">
-
-        📈 Ringkasan Keuangan
-
-    </h4>
+    📅 Ringkasan Berdasarkan Periode
+</h4>
 
     <div class="row g-3 mb-4">
 
@@ -322,303 +317,10 @@
 </div>
 
 
-    <!-- ===================================================== -->
-    <!-- TABEL TRANSAKSI                                       -->
-    <!-- ===================================================== -->
-
-    <div class="card overflow-hidden">
-
-    <div class="card-header border-0 py-4">
-
-        <h4 class="table-section-title mb-0">
-
-            <i class="bi bi-receipt-cutoff me-2"></i>
-            Daftar Transaksi
-
-        </h4>
-
-    </div>
-
-    <div class="table-responsive">
-                <table class="table table-dark-luxury align-middle mb-0">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>No</th>
-                            <th>Judul</th>
-                            <th>Kategori</th>
-                            <th>Jenis</th>
-                            <th>Jumlah</th>
-                            <th>Tanggal</th>
-                            <th width="18%">Aksi</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @forelse($transactions as $item)
-
-                                        <tr>
-
-                                            <!-- Nomor -->
-                                            <td>
-
-                                                {{
-                            ($transactions->currentPage() - 1)
-                            * $transactions->perPage()
-                            + $loop->iteration
-                                                                                                                                    }}
-
-                                            </td>
-
-                                            <!-- Judul -->
-                                            <td class="transaction-title">
-
-    {{ $item->title }}
-
-</td>
-                                            <!-- Kategori -->
-                                            <<td class="category-column">
-    {{ $item->category->name ?? '-' }}
-</td>
-                                            <!-- Jenis -->
-                                            <td>
-
-                                                @if($item->type == 'pemasukan')
-
-                                                    <span class="income-badge">
-
-                                                        ⬆ Pemasukan
-
-                                                    </span>
-
-                                                @else
-
-                                                    <span class="expense-badge">
-
-                                                        ⬇ Pengeluaran
-
-                                                    </span>
-
-                                                @endif
-
-                                            </td>
-
-                                            <!-- Jumlah -->
-                                            <td>
-
-                                                Rp {{ number_format($item->amount, 0, ',', '.') }}
-
-                                            </td>
-
-                                            <!-- Tanggal -->
-                                            <td>
-
-                                                {{ \Carbon\Carbon::parse($item->transaction_date)->format('d-m-Y') }}
-
-                                            </td>
-
-                                            <td>
-
-    <div class="d-flex gap-2">
-
-        <a href="{{ route('transactions.edit', $item->id) }}"
-           class="btn-action-edit">
-
-            ✏ Edit
-
-        </a>
-
-        <form action="{{ route('transactions.destroy', $item->id) }}"
-              method="POST">
-
-            @csrf
-            @method('DELETE')
-
-            <button
-                type="submit"
-                class="btn-action-delete"
-                onclick="return confirm('Yakin ingin menghapus data ini?')">
-
-                🗑 Hapus
-
-            </button>
-
-        </form>
-
-    </div>
-
-</td>
-
-                        @empty
-
-                            <tr>
-
-                               <td colspan="7">
-
-    <div class="empty-state text-center">
-
-        <div class="empty-icon">
-            📂
-        </div>
-
-        <h4 class="mt-3">
-            Belum Ada Transaksi
-        </h4>
-
-        <p class="text-secondary mb-0">
-            Silakan tambahkan transaksi pertama Anda.
-        </p>
-
-    </div>
-
-</td>
-                            </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
 
     <!-- ===================================================== -->
     <!-- PAGINATION                                            -->
     <!-- ===================================================== -->
-
-    <div class="mt-4">
-
-        {{ $transactions->links() }}
-
-    </div>
-
-    <style>
-
-.page-title{
-    font-size: 2rem;
-    font-weight: 700;
-    color: #212529;
-}
-
-.form-card{
-    background: #fff;
-    border-radius: 20px;
-    padding: 35px;
-    border: none;
-    box-shadow: 0 15px 35px rgba(0,0,0,.08);
-}
-
-.form-label{
-    font-weight: 600;
-    color: #212529;
-    margin-bottom: 8px;
-}
-
-.form-control,
-.form-select{
-    border-radius: 12px;
-    border: 1px solid #dfe3e8;
-    padding: 12px 15px;
-    transition: all .3s ease;
-    background: #fafbfc;
-}
-
-.form-control:focus,
-.form-select:focus{
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 .25rem rgba(13,110,253,.15);
-    background: #fff;
-}
-
-.form-control::placeholder{
-    color: #9ca3af;
-}
-
-.btn-save{
-    border-radius: 12px;
-    padding: 12px 24px;
-    font-weight: 600;
-}
-
-.btn-back{
-    border-radius: 12px;
-    padding: 12px 24px;
-    font-weight: 600;
-}
-
-.form-header{
-    margin-bottom: 30px;
-}
-
-.form-header h2{
-    font-weight: 700;
-    margin-bottom: 5px;
-}
-
-.form-header p{
-    color: #6c757d;
-    margin-bottom: 0;
-}
-
-.add-btn{
-    background: linear-gradient(
-        135deg,
-        #4f46e5,
-        #7c3aed
-    );
-    color:white !important;
-    border:none;
-    font-weight:600;
-    padding:12px 22px;
-    border-radius:12px;
-    transition:all .3s ease;
-    box-shadow:0 8px 20px rgba(79,70,229,.35);
-}
-
-.add-btn:hover{
-    color:white !important;
-    transform:translateY(-2px);
-    box-shadow:0 12px 25px rgba(79,70,229,.45);
-}
-
-.add-btn:focus{
-    color:white !important;
-}
-
-.stats-label{
-    color:rgba(255,255,255,.85);
-    font-size:.95rem;
-    font-weight:600;
-    letter-spacing:.5px;
-}
-
-.stats-value{
-    color:rgba(5, 247, 9, 0.85);
-    font-weight:600;
-}
-.stats-value-loss{
-    color:red;
-    font-weight:600;
-}
-.report-card{
-    border-radius:16px;
-}
-
-.report-content{
-    padding:30px;
-    max-width:90%;
-    margin:0 auto;
-}
-</style>
 
 @push('scripts')
 
@@ -664,6 +366,9 @@ document.addEventListener('DOMContentLoaded', function () {
    const categoryLabels = @json($expenseByCategory->pluck('category'));
 const categoryTotals = @json($expenseByCategory->pluck('total'));
 
+const categoryChart =
+    document.getElementById('categoryChart');
+
 new Chart(categoryChart, {
     type: 'doughnut',
     data: {
@@ -681,16 +386,9 @@ new Chart(categoryChart, {
         }
     }
 });
-
     }
 
 });
-const categoryLabels =
-    @json($expenseByCategory->pluck('category'));
-
-const categoryTotals =
-    @json($expenseByCategory->pluck('total'));
-
 </script>
 
 @endpush

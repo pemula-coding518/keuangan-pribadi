@@ -1,101 +1,92 @@
-# Aplikasi Pencatatan Keuangan Pribadi Laravel
+# 💰 Aplikasi Pencatatan Keuangan Pribadi
 
-## Deskripsi Project
+Aplikasi pencatatan keuangan pribadi berbasis **Laravel 10** yang digunakan untuk mengelola pemasukan dan pengeluaran sehari-hari secara sederhana, rapi, dan terstruktur.
 
-Project ini adalah aplikasi pencatatan keuangan pribadi berbasis Laravel yang digunakan untuk mencatat pemasukan dan pengeluaran.
-
-Aplikasi ini dibuat untuk memenuhi tugas CRUD Laravel dan sudah mendukung:
-
-- CRUD kategori
-- CRUD transaksi
-- Validasi form
-- Dashboard statistik keuangan
-- Pencarian data transaksi
-- Relasi antar tabel
-- Migrasi database
-- Tampilan Bootstrap
-- Sistem tipe transaksi (Pemasukan & Pengeluaran)
+Project ini dibuat sebagai media pembelajaran Laravel sekaligus implementasi konsep **CRUD (Create, Read, Update, Delete)**, relasi database, validasi form, dan dashboard statistik keuangan.
 
 ---
 
-# Teknologi yang Digunakan
+## ✨ Fitur Utama
 
-- PHP 8.1+
-- Laravel 10
-- MySQL
-- Bootstrap 5
-- Laragon
-- Composer
+### 📊 Dashboard Statistik
 
----
+Menampilkan ringkasan kondisi keuangan pengguna:
 
-# Fitur Aplikasi
+* Total Pemasukan
+* Total Pengeluaran
+* Saldo Akhir
 
-## 1. Dashboard Statistik
+### 📂 Manajemen Kategori
 
-Menampilkan:
+Pengelolaan kategori transaksi meliputi:
 
-- Total pemasukan
-- Total pengeluaran
-- Saldo akhir
-
----
-
-## 2. Manajemen Kategori
-
-User dapat:
-
-- Menambah kategori
-- Mengedit kategori
-- Menghapus kategori
-- Melihat daftar kategori
+* Tambah kategori
+* Edit kategori
+* Hapus kategori
+* Lihat daftar kategori
 
 Contoh kategori:
 
-- Makanan
-- Transportasi
-- Gaji
-- Hiburan
+* Gaji
+* Makanan
+* Transportasi
+* Hiburan
+* Belanja
+
+### 💸 Manajemen Transaksi
+
+Pengelolaan data transaksi meliputi:
+
+* Tambah transaksi
+* Edit transaksi
+* Hapus transaksi
+* Lihat daftar transaksi
+* Pencarian transaksi
+
+Informasi transaksi yang disimpan:
+
+* Judul Transaksi
+* Jenis Transaksi (Pemasukan/Pengeluaran)
+* Nominal
+* Kategori
+* Tanggal Transaksi
+* Catatan
+
+### ✅ Validasi Form
+
+Setiap form dilengkapi validasi untuk menjaga integritas data.
+
+### 🔍 Fitur Pencarian
+
+Memudahkan pengguna mencari transaksi berdasarkan kata kunci tertentu.
 
 ---
 
-## 3. Manajemen Transaksi
+## 🛠️ Teknologi yang Digunakan
 
-User dapat:
-
-- Menambah transaksi
-- Mengedit transaksi
-- Menghapus transaksi
-- Melihat seluruh transaksi
-- Mencari transaksi
-
-Data transaksi meliputi:
-
-- Judul transaksi
-- Tipe transaksi
-- Nominal
-- Kategori
-- Tanggal
-- Catatan
+* PHP 8.1+
+* Laravel 10
+* MySQL
+* Bootstrap 5
+* Composer
+* Laragon
 
 ---
 
-# Struktur Database
+## 🗄️ Struktur Database
 
-## Tabel Categories
+### Tabel Categories
 
-| Field      | Type      |
+| Field      | Tipe      |
 | ---------- | --------- |
 | id         | bigint    |
 | name       | string    |
 | created_at | timestamp |
 | updated_at | timestamp |
 
----
+### Tabel Transactions
 
-## Tabel Transactions
-
-| Field            | Type      |
+| Field            | Tipe      |
 | ---------------- | --------- |
 | id               | bigint    |
 | title            | string    |
@@ -109,11 +100,11 @@ Data transaksi meliputi:
 
 ---
 
-# Relasi Database
+## 🔗 Relasi Database
 
-## Category Model
+### Category Model
 
-Satu kategori memiliki banyak transaksi.
+Satu kategori dapat memiliki banyak transaksi.
 
 ```php
 public function transactions()
@@ -122,11 +113,9 @@ public function transactions()
 }
 ```
 
----
+### Transaction Model
 
-## Transaction Model
-
-Satu transaksi dimiliki satu kategori.
+Satu transaksi hanya dimiliki oleh satu kategori.
 
 ```php
 public function category()
@@ -137,49 +126,39 @@ public function category()
 
 ---
 
-# Instalasi Project
+## 🚀 Instalasi Project
 
-## 1. Clone Repository
+### 1. Clone Repository
 
 ```bash
-git clone https://github.com/username/nama-project.git
+git clone https://github.com/pemula-coding518/keuangan-pribadi
 ```
 
----
-
-## 2. Masuk ke Folder Project
+### 2. Masuk ke Folder Project
 
 ```bash
 cd nama-project
 ```
 
----
-
-## 3. Install Dependency
+### 3. Install Dependency
 
 ```bash
 composer install
 ```
 
----
-
-## 4. Copy File Environment
+### 4. Salin File Environment
 
 ```bash
 cp .env.example .env
 ```
 
----
-
-## 5. Generate Application Key
+### 5. Generate Application Key
 
 ```bash
 php artisan key:generate
 ```
 
----
-
-## 6. Atur Database
+### 6. Konfigurasi Database
 
 Edit file `.env`
 
@@ -189,67 +168,56 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
----
-
-## 7. Jalankan Migration
+### 7. Jalankan Migration
 
 ```bash
 php artisan migrate
 ```
 
----
+### 8. (Opsional) Jalankan Seeder
 
-## 8. Jalankan Server Laravel
+```bash
+php artisan db:seed
+```
+
+### 9. Jalankan Server
 
 ```bash
 php artisan serve
 ```
 
----
-
-# Struktur Folder Penting
-
-## Controller
+Aplikasi dapat diakses melalui:
 
 ```text
-app/Http/Controllers
+http://127.0.0.1:8000
 ```
-
-Berisi:
-
-- CategoryController
-- TransactionController
 
 ---
 
-## Model
+## 📁 Struktur Folder
 
 ```text
-app/Models
+app
+├── Http
+│   └── Controllers
+│       ├── CategoryController.php
+│       └── TransactionController.php
+
+app
+└── Models
+    ├── Category.php
+    └── Transaction.php
+
+resources
+└── views
+    ├── categories
+    ├── transactions
+    └── layouts
 ```
-
-Berisi:
-
-- Category.php
-- Transaction.php
 
 ---
 
-## View
-
-```text
-resources/views
-```
-
-Berisi:
-
-- categories
-- transactions
-- layouts
-
----
-
-# Route yang Digunakan
+## 🛣️ Routes
 
 ```php
 Route::resource('categories', CategoryController::class);
@@ -258,127 +226,67 @@ Route::resource('transactions', TransactionController::class);
 
 ---
 
-# Validasi Form
+## 🖼️ Tampilan Aplikasi
 
-## Contoh Validasi Transaksi
+Aplikasi menggunakan komponen Bootstrap 5 seperti:
 
-```php
-$request->validate([
-    'title' => 'required',
-    'type' => 'required',
-    'amount' => 'required|numeric',
-    'category_id' => 'required',
-    'transaction_date' => 'required|date'
-]);
-```
+* Responsive Table
+* Card Layout
+* Alert Validation
+* Badge Status
+* Pagination
+* Form Validation
 
 ---
 
-# Tampilan Aplikasi
+## 📸 Screenshot
 
-Aplikasi menggunakan:
+Tambahkan screenshot aplikasi pada bagian berikut:
 
-- Bootstrap Card
-- Table Responsive
-- Alert Validation
-- Form Input Bootstrap
-- Badge Status
+### Dashboard
 
----
+![Dashboard](screenshots/dashboard.png)
 
-# Progress Project Saat Ini
+### Halaman Kategori
 
-## Yang Sudah Selesai
+![Kategori](screenshots/categories.png)
 
-✅ Setup Laravel
+### Halaman Transaksi
 
-✅ Koneksi database MySQL
+![Transaksi](screenshots/transactions.png)
 
-✅ Migration categories
+### Form Tambah Transaksi
 
-✅ Migration transactions
-
-✅ CRUD kategori
-
-✅ CRUD transaksi
-
-✅ Relasi model
-
-✅ Validasi form
-
-✅ Dashboard statistik
-
-✅ Search transaksi
-
-✅ Penambahan field type pada transaksi
-
-✅ Tampilan Bootstrap
-
-✅ Perbaikan error blade
-
-✅ Perbaikan error controller
-
-✅ Perbaikan error migration
+![Tambah Transaksi](screenshots/create-transaction.png)
 
 ---
 
-# Kendala yang Pernah Diperbaiki
+## 📚 Pembelajaran yang Diterapkan
 
-Beberapa error yang sudah diperbaiki:
+Project ini mengimplementasikan beberapa konsep Laravel:
 
-- Error HTTP 500
-- Error undefined variable
-- Error validation form
-- Error relasi kategori
-- Error selected option edit transaksi
-- Error migration field baru
-- Error syntax Blade
-- Error route resource
-
----
-
-# Cara Penggunaan Aplikasi
-
-## Menambah Kategori
-
-1. Buka menu kategori
-2. Klik tambah kategori
-3. Isi nama kategori
-4. Klik simpan
+* Routing
+* Controller
+* Model Eloquent
+* Migration
+* Seeder
+* Validation
+* Relationship
+* Blade Template Engine
+* Pagination
+* Query Builder
+* Resource Controller
 
 ---
 
-## Menambah Transaksi
+## 👨‍💻 Author
 
-1. Buka menu transaksi
-2. Klik tambah transaksi
-3. Isi data transaksi
-4. Pilih tipe transaksi
-5. Pilih kategori
-6. Klik simpan
+**Satria**
+
+Project ini dibuat sebagai bagian dari pembelajaran framework Laravel dan implementasi aplikasi pencatatan keuangan pribadi.
 
 ---
 
-# Screenshot Fitur
+## 📄 License
 
-Tambahkan screenshot project di bagian ini.
-
-Contoh:
-
-- Dashboard
-- Halaman kategori
-- Halaman transaksi
-- Form tambah transaksi
-- Form edit transaksi
-
----
-
-# Author
-
-Dibuat menggunakan Laravel untuk tugas CRUD dan pembelajaran framework Laravel.
-
----
-
-# Lisensi
-
-Project ini SATRIA
+Project ini dibuat untuk tujuan pembelajaran dan pengembangan kemampuan dalam menggunakan Laravel.

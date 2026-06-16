@@ -3,32 +3,20 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
-// Import model Category
 use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Menjalankan Seeder
-    |--------------------------------------------------------------------------
-    */
-
     public function run(): void
     {
         /*
         |--------------------------------------------------------------------------
-        | Data kategori pemasukan
+        | Kategori Pemasukan
         |--------------------------------------------------------------------------
         */
 
         Category::create([
-
-            // Nama kategori
             'name' => 'Gaji',
-
-            // Jenis kategori
             'type' => 'income'
         ]);
 
@@ -37,9 +25,19 @@ class CategorySeeder extends Seeder
             'type' => 'income'
         ]);
 
+        Category::create([
+            'name' => 'Freelance',
+            'type' => 'income'
+        ]);
+
+        Category::create([
+            'name' => 'Investasi',
+            'type' => 'income'
+        ]);
+
         /*
         |--------------------------------------------------------------------------
-        | Data kategori pengeluaran
+        | Kategori Pengeluaran
         |--------------------------------------------------------------------------
         */
 
@@ -52,5 +50,28 @@ class CategorySeeder extends Seeder
             'name' => 'Transportasi',
             'type' => 'expense'
         ]);
+
+        Category::create([
+            'name' => 'Belanja',
+            'type' => 'expense'
+        ]);
+
+        Category::create([
+            'name' => 'Tagihan',
+            'type' => 'expense'
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Kategori Lainnya
+        |--------------------------------------------------------------------------
+        */
+
+         Category::create([
+            'name' => 'Lainnya',
+            'type' => 'other'
+        ]);
+
+       
     }
 }

@@ -10,6 +10,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 
 class TransactionController extends Controller
 {
@@ -149,7 +151,46 @@ class TransactionController extends Controller
             'expenseByCategory',
         ));
     }
+  
+    public function export()
+{
+    $fileName = 'transaksi.csv';
 
+    $transactions = Transaction::with('category')->get();
+
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => "attachment; filename=$fileName",
+    ];
+
+    $callback = function () use ($transactions) {
+
+        $file = fopen('php://output', 'w');
+
+        fputcsv($file, [
+            'Tanggal',
+            'Judul',
+            'Kategori',
+            'Jenis',
+            'Jumlah'
+        ]);
+
+        foreach ($transactions as $transaction) {
+
+            fputcsv($file, [
+                $transaction->created_at,
+                $transaction->title,
+                $transaction->category->name,
+                $transaction->category->type,
+                $transaction->amount,
+            ]);
+        }
+
+        fclose($file);
+    };
+
+    return response()->stream($callback, 200, $headers);
+}
     /*
     |--------------------------------------------------------------------------
     | Detail Laporan
@@ -335,5 +376,7 @@ class TransactionController extends Controller
             ->route('transactions.index')
             ->with('success', 'Data berhasil dihapus');
     }
+
+
 
 }
