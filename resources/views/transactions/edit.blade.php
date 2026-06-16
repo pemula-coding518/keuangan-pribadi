@@ -2,75 +2,86 @@
 
 @section('content')
 
-<!-- ===================================================== -->
-<!-- PAGE HEADER                                           -->
-<!-- ===================================================== -->
-
 <div class="page-header">
 
-    <h1 class="page-title">
-        ✏ Edit Transaksi
-    </h1>
+<h1 class="page-title">
+    ✏ Edit Transaksi
+</h1>
 
-    <p class="page-subtitle">
-        Perbarui data transaksi Anda dengan mudah dan rapi.
-    </p>
+<p class="page-subtitle">
+    Perbarui data transaksi Anda dengan mudah dan rapi.
+</p>
 
 </div>
 
-<!-- ===================================================== -->
-<!-- FORM CARD                                             -->
-<!-- ===================================================== -->
-
 <div class="card">
 
-    <div class="card-body">
+<div class="card-body">
 
-        <!-- ERROR -->
-        @if ($errors->any())
+    @if ($errors->any())
 
-            <div class="alert alert-danger">
+        <div class="alert alert-danger mb-4">
 
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <ul class="mb-0">
+
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+
+            </ul>
+
+        </div>
+
+    @endif
+
+    <form
+        action="{{ route('transactions.update', $transaction->id) }}"
+        method="POST"
+        class="transaction-form"
+    
+    >
+        @csrf
+        @method('PUT')
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Judul Transaksi
+                </label>
+
+                <input
+                    type="text"
+                    name="title"
+                    class="form-control"
+                    value="{{ old('title', $transaction->title) }}"
+                >
 
             </div>
 
-        @endif
+            <div class="form-group">
 
-        <!-- FORM -->
-        <form action="{{ route('transactions.update', $transaction->id) }}" method="POST">
+                <label class="form-label">
+                    Jenis Transaksi
+                </label>
 
-            @csrf
-            @method('PUT')
+                <select
+                    name="type"
+                    class="form-select"
+                >
 
-            <!-- TITLE -->
-            <div class="mb-3">
-
-                <label class="form-label">Judul Transaksi</label>
-
-                <input type="text"
-                       name="title"
-                       class="form-control"
-                       value="{{ old('title', $transaction->title) }}">
-
-            </div>
-
-            <!-- TYPE -->
-            <div class="mb-3">
-
-                <label class="form-label">Jenis Transaksi</label>
-
-                <select name="type" class="form-select">
-
-                    <option value="pemasukan" {{ $transaction->type == 'pemasukan' ? 'selected' : '' }}>
+                    <option
+                        value="pemasukan"
+                        {{ old('type', $transaction->type) == 'pemasukan' ? 'selected' : '' }}
+                    >
                         Pemasukan
                     </option>
 
-                    <option value="pengeluaran" {{ $transaction->type == 'pengeluaran' ? 'selected' : '' }}>
+                    <option
+                        value="pengeluaran"
+                        {{ old('type', $transaction->type) == 'pengeluaran' ? 'selected' : '' }}
+                    >
                         Pengeluaran
                     </option>
 
@@ -78,19 +89,28 @@
 
             </div>
 
-            <!-- CATEGORY -->
-            <div class="mb-3">
+            <div class="form-group">
 
-                <label class="form-label">Kategori</label>
+                <label class="form-label">
+                    Kategori
+                </label>
 
-                <select name="category_id" class="form-select" required>
+                <select
+                    name="category_id"
+                    class="form-select"
+                    required
+                >
 
-                    <option value="">Pilih Kategori</option>
+                    <option value="">
+                        Pilih Kategori
+                    </option>
 
                     @foreach($categories as $category)
 
-                        <option value="{{ $category->id }}"
-                            {{ old('category_id', $transaction->category_id) == $category->id ? 'selected' : '' }}>
+                        <option
+                            value="{{ $category->id }}"
+                            {{ old('category_id', $transaction->category_id) == $category->id ? 'selected' : '' }}
+                        >
                             {{ $category->name }}
                         </option>
 
@@ -100,57 +120,74 @@
 
             </div>
 
-            <!-- AMOUNT -->
-            <div class="mb-3">
+            <div class="form-group">
 
-                <label class="form-label">Jumlah Uang</label>
+                <label class="form-label">
+                    Jumlah Uang
+                </label>
 
-                <input type="number"
-                       name="amount"
-                       class="form-control"
-                       value="{{ old('amount', $transaction->amount) }}">
-
-            </div>
-
-            <!-- DATE -->
-            <div class="mb-3">
-
-                <label class="form-label">Tanggal Transaksi</label>
-
-                <input type="date"
-                       name="transaction_date"
-                       class="form-control"
-                       value="{{ old('transaction_date', $transaction->transaction_date) }}">
+                <input
+                    type="number"
+                    name="amount"
+                    class="form-control"
+                    value="{{ old('amount', $transaction->amount) }}"
+                >
 
             </div>
 
-            <!-- DESCRIPTION -->
-            <div class="mb-3">
+            <div class="form-group">
 
-                <label class="form-label">Deskripsi</label>
+                <label class="form-label">
+                    Tanggal Transaksi
+                </label>
 
-                <textarea name="description"
-                          class="form-control"
-                          rows="4">{{ old('description', $transaction->description) }}</textarea>
-
-            </div>
-
-            <!-- BUTTONS -->
-            <div class="d-flex gap-2 mt-4">
-
-                <button type="submit" class="btn btn-primary">
-                    💾 Simpan Perubahan
-                </button>
-
-                <a href="{{ route('transactions.index') }}" class="btn btn-secondary">
-                    ← Batal
-                </a>
+                <input
+                    type="date"
+                    name="transaction_date"
+                    class="form-control"
+                    value="{{ old('transaction_date', \Carbon\Carbon::parse($transaction->transaction_date)->format('Y-m-d')) }}"
+                >
 
             </div>
 
-        </form>
+            <div class="form-group full-width">
 
-    </div>
+                <label class="form-label">
+                    Deskripsi
+                </label>
+
+                <textarea
+                    name="description"
+                    class="form-control"
+                    rows="5"
+                >{{ old('description', $transaction->description) }}</textarea>
+
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                💾 Simpan Perubahan
+            </button>
+
+            <a
+                href="{{ route('transactions.index') }}"
+                class="btn btn-secondary"
+            >
+                ← Batal
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
 
 </div>
 

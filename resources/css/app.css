@@ -1029,3 +1029,48 @@ textarea.form-control {
     .stat-value { font-size: 18px; }
     .page-title { font-size: 20px; }
 }
+
+/* =========================CHART============================ */
+.chart-card-body {
+    height: 350px;
+    position: relative;
+}
+
+.fixed-chart {
+    height: 350px;
+    position: relative;
+}
+
+/* ============================================================ */
+/* TRANSACTION FORM                                             */
+/* ============================================================ */
+
+.transaction-form {
+    max-width: 1000px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.form-actions .btn {
+    min-width: 180px;
+}

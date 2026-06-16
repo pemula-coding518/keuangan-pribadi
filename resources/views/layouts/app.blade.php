@@ -79,6 +79,8 @@
     </main>
 
 </div>
+ 
+@stack('scripts')
 
 </body>
 

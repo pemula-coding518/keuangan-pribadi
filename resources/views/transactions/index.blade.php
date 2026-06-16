@@ -206,7 +206,7 @@
 
 <div class="row g-3 mt-4">
 
-    <div class="col-lg-8">
+    <div class="col-lg-7">
 
         <div class="chart-card">
 
@@ -214,7 +214,7 @@
                 <h5 class="chart-card-title">📈 Tren Keuangan</h5>
             </div>
 
-            <div class="chart-card-body">
+            <div class="chart-card-body fixed-chart">
                 <canvas id="financeChart"></canvas>
             </div>
 
@@ -222,7 +222,7 @@
 
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-5">
 
         <div class="chart-card">
 
@@ -230,7 +230,7 @@
                 <h5 class="chart-card-title">📊 Pengeluaran per Kategori</h5>
             </div>
 
-            <div class="chart-card-body">
+            <div class="chart-card-body fixed-chart">
                 <canvas id="categoryChart"></canvas>
             </div>
 
@@ -274,14 +274,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 ]
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
+             options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: {
+            position: 'bottom'
+        }
+    }
+}
         });
 
     }
@@ -301,14 +302,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     data: categoryTotals
                 }]
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
+           options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: {
+            position: 'bottom'
+        }
+    }
+}
         });
 
     }

@@ -2,55 +2,38 @@
 
 @section('content')
 
-<!-- ===================================================== -->
-<!-- PAGE HEADER                                           -->
-<!-- ===================================================== -->
-
 <div class="page-header">
-
     <h1 class="page-title">Tambah Catatan</h1>
-
     <p class="page-subtitle">
         Catat pemasukan dan pengeluaran dengan mudah dan rapi.
     </p>
-
 </div>
 
-<!-- ===================================================== -->
-<!-- FORM CARD                                             -->
-<!-- ===================================================== -->
-
 <div class="card">
-
     <div class="card-body">
 
-        <!-- VALIDATION ERROR -->
-        @if ($errors->any())
 
-            <div class="alert alert-danger">
+    @if ($errors->any())
+        <div class="alert alert-danger mb-4">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-                <ul class="mb-0">
+    <form
+        action="{{ route('transactions.store') }}"
+        method="POST"
+        class="transaction-form"
+    >
+        @csrf
 
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
+        <div class="form-grid">
 
-                </ul>
-
-            </div>
-
-        @endif
-
-        <!-- FORM -->
-        <form action="{{ route('transactions.store') }}" method="POST">
-
-            @csrf
-
-            <!-- TITLE -->
-            <div class="mb-3">
-
+            <div class="form-group">
                 <label class="form-label">Judul Transaksi</label>
-
                 <input
                     type="text"
                     name="title"
@@ -58,57 +41,52 @@
                     placeholder="Masukkan judul transaksi"
                     value="{{ old('title') }}"
                 >
-
             </div>
 
-            <!-- TYPE -->
-            <div class="mb-3">
-
+            <div class="form-group">
                 <label class="form-label">Jenis Transaksi</label>
 
                 <select name="type" class="form-select">
-
                     <option value="">-- Pilih Jenis --</option>
 
-                    <option value="pemasukan" {{ old('type') == 'pemasukan' ? 'selected' : '' }}>
+                    <option
+                        value="pemasukan"
+                        {{ old('type') == 'pemasukan' ? 'selected' : '' }}
+                    >
                         Pemasukan
                     </option>
 
-                    <option value="pengeluaran" {{ old('type') == 'pengeluaran' ? 'selected' : '' }}>
+                    <option
+                        value="pengeluaran"
+                        {{ old('type') == 'pengeluaran' ? 'selected' : '' }}
+                    >
                         Pengeluaran
                     </option>
-
                 </select>
-
             </div>
 
-            <!-- CATEGORY -->
-            <div class="mb-3">
-
+            <div class="form-group">
                 <label class="form-label">Kategori</label>
 
-                <select name="category_id" class="form-select" required>
-
+                <select
+                    name="category_id"
+                    class="form-select"
+                    required
+                >
                     <option value="">Pilih Kategori</option>
 
                     @foreach($categories as $category)
-
                         <option
                             value="{{ $category->id }}"
                             {{ old('category_id') == $category->id ? 'selected' : '' }}
                         >
                             {{ $category->name }}
                         </option>
-
                     @endforeach
-
                 </select>
-
             </div>
 
-            <!-- AMOUNT -->
-            <div class="mb-3">
-
+            <div class="form-group">
                 <label class="form-label">Jumlah Uang</label>
 
                 <input
@@ -118,12 +96,9 @@
                     placeholder="Masukkan jumlah uang"
                     value="{{ old('amount') }}"
                 >
-
             </div>
 
-            <!-- DATE -->
-            <div class="mb-3">
-
+            <div class="form-group">
                 <label class="form-label">Tanggal Transaksi</label>
 
                 <input
@@ -132,39 +107,43 @@
                     class="form-control"
                     value="{{ old('transaction_date') }}"
                 >
-
             </div>
 
-            <!-- DESCRIPTION -->
-            <div class="mb-3">
-
+            <div class="form-group full-width">
                 <label class="form-label">Deskripsi</label>
 
                 <textarea
                     name="description"
                     class="form-control"
-                    rows="4"
+                    rows="5"
                     placeholder="Masukkan deskripsi transaksi"
                 >{{ old('description') }}</textarea>
-
             </div>
 
-            <!-- BUTTONS -->
-            <div class="d-flex gap-2">
+        </div>
 
-                <button type="submit" class="btn btn-primary">
-                    💾 Simpan Transaksi
-                </button>
+        <div class="form-actions">
 
-                <a href="{{ route('transactions.index') }}" class="btn btn-secondary">
-                    ← Kembali
-                </a>
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                💾 Simpan Transaksi
+            </button>
 
-            </div>
+            <a
+                href="{{ route('transactions.index') }}"
+                class="btn btn-secondary"
+            >
+                ← Kembali
+            </a>
 
-        </form>
+        </div>
 
-    </div>
+    </form>
+
+</div>
+
 
 </div>
 
