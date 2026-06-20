@@ -204,9 +204,9 @@
 <!-- CHART SECTION                                         -->
 <!-- ===================================================== -->
 
-<div class="row g-3 mt-4">
+<div class="row g-4 mt-4">
 
-    <div class="col-lg-7">
+    <div class="col-lg-6">
 
         <div class="chart-card">
 
@@ -222,7 +222,7 @@
 
     </div>
 
-    <div class="col-lg-5">
+    <div class="col-lg-6">
 
         <div class="chart-card">
 

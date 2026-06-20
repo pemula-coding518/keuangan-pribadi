@@ -76,7 +76,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
-    /* Subtle noise/texture via radial gradients */
     background-image:
         radial-gradient(ellipse 80% 50% at 15% 10%, rgba(29, 78, 216, 0.07) 0%, transparent 60%),
         radial-gradient(ellipse 60% 40% at 85% 90%, rgba(37, 99, 235, 0.05) 0%, transparent 55%);
@@ -99,7 +98,7 @@ body {
     width: var(--sidebar-w);
     background: var(--bg-sidebar);
     border-right: 1px solid var(--border);
-    padding: 24px 16px 24px;
+    padding: 24px 16px;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -118,12 +117,17 @@ body {
     display: flex;
     align-items: center;
     gap: 11px;
-    padding: 14px 14px;
+    padding: 14px;
     margin-bottom: 28px;
     border-radius: var(--r-md);
     background: linear-gradient(135deg, rgba(29,78,216,0.18) 0%, rgba(37,99,235,0.08) 100%);
     border: 1px solid var(--border-md);
     text-decoration: none;
+    transition: var(--ease);
+}
+
+.logo:hover {
+    border-color: var(--border-hi);
 }
 
 .logo-emoji { font-size: 22px; line-height: 1; }
@@ -163,14 +167,14 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
 }
 
 .menu a {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 12px;
+    padding: 9px 12px;
     border-radius: var(--r-sm);
     text-decoration: none;
     color: var(--text-2);
@@ -226,7 +230,7 @@ body {
 }
 
 /* ============================================================ */
-/*  ADD / PRIMARY CTA BUTTON                                     */
+/*  ADD / PRIMARY CTA BUTTON (sidebar footer only)              */
 /* ============================================================ */
 
 .add-btn {
@@ -305,7 +309,6 @@ body {
     transition: var(--ease);
 }
 
-/* Accent stripe on top */
 .stat-card::before {
     content: '';
     position: absolute;
@@ -397,7 +400,7 @@ body {
 }
 
 /* ============================================================ */
-/*  DASHBOARD CHART CARDS                                        */
+/*  CHART CARDS                                                  */
 /* ============================================================ */
 
 .chart-card {
@@ -408,14 +411,12 @@ body {
 }
 
 .chart-card-header {
-    padding: 18px 24px 0;
+    padding: 18px 24px 16px;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 16px;
-    margin-bottom: 0;
 }
 
 .chart-card-body {
-    padding: 20px 20px;
+    padding: 20px;
 }
 
 .chart-card-title {
@@ -460,10 +461,7 @@ body {
     box-shadow: 0 12px 36px rgba(37,99,235,0.18);
 }
 
-.period-card:hover::after {
-    opacity: 1;
-    transform: translateX(0);
-}
+.period-card:hover::after { opacity: 1; transform: translateX(0); }
 
 .period-card-label {
     font-size: 11px;
@@ -524,7 +522,7 @@ body {
     letter-spacing: 0.7px;
     white-space: nowrap;
     border-bottom: 1px solid var(--border) !important;
-    padding: 13px 16px;
+    padding: 12px 16px;
 }
 
 .table tbody tr { transition: var(--ease); }
@@ -532,6 +530,11 @@ body {
 .table tbody tr:hover > td {
     background: rgba(37,99,235,0.05) !important;
     color: var(--text-1);
+}
+
+/* Hapus border bawah di baris terakhir agar tidak double dengan card border */
+.table tbody tr:last-child > td {
+    border-bottom: none !important;
 }
 
 .transaction-title {
@@ -728,9 +731,7 @@ body {
     transition: var(--ease) !important;
 }
 
-.form-control::placeholder {
-    color: var(--text-3) !important;
-}
+.form-control::placeholder { color: var(--text-3) !important; }
 
 .form-control:focus, .form-select:focus {
     background: rgba(4, 14, 28, 0.95) !important;
@@ -791,9 +792,7 @@ textarea.form-control {
 /*  PAGINATION                                                   */
 /* ============================================================ */
 
-.pagination {
-    gap: 4px;
-}
+.pagination { gap: 4px; }
 
 .page-link {
     background: var(--bg-card) !important;
@@ -819,9 +818,7 @@ textarea.form-control {
     box-shadow: 0 3px 10px rgba(37,99,235,0.40);
 }
 
-.page-item.disabled .page-link {
-    opacity: 0.35;
-}
+.page-item.disabled .page-link { opacity: 0.35; }
 
 /* ============================================================ */
 /*  EMPTY STATE                                                  */
@@ -927,7 +924,7 @@ textarea.form-control {
 .report-option-desc {
     font-size: 13px;
     color: var(--text-2);
-    line-height: 1.5;
+    line-height: 1.55;
 }
 
 .report-option-arrow {
@@ -950,6 +947,12 @@ textarea.form-control {
     border-radius: var(--r-lg);
     padding: 28px;
     height: 100%;
+    transition: var(--ease);
+}
+
+.tool-card:hover {
+    border-color: var(--border-md);
+    box-shadow: var(--glow-sm);
 }
 
 .tool-icon {
@@ -961,6 +964,7 @@ textarea.form-control {
     justify-content: center;
     font-size: 22px;
     margin-bottom: 16px;
+    /* border added inline per card for semantic color */
 }
 
 /* ============================================================ */
@@ -1012,7 +1016,7 @@ textarea.form-control {
 
     .logo-text,
     .nav-group-label,
-    .menu a span {
+    .menu a span:not(.menu-icon) {
         display: none;
     }
 
@@ -1030,19 +1034,18 @@ textarea.form-control {
     .page-title { font-size: 20px; }
 }
 
-/* =========================CHART============================ */
-.chart-card-body {
-    height: 350px;
-    position: relative;
-}
+/* ============================================================ */
+/*  CHART                                                        */
+/* ============================================================ */
 
+.chart-card-body,
 .fixed-chart {
     height: 350px;
     position: relative;
 }
 
 /* ============================================================ */
-/* TRANSACTION FORM                                             */
+/*  TRANSACTION FORM                                             */
 /* ============================================================ */
 
 .transaction-form {
@@ -1073,4 +1076,36 @@ textarea.form-control {
 
 .form-actions .btn {
     min-width: 180px;
+}
+
+/* ============================================================ */
+/*  LOGOUT                                                      */ 
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 20px;
+    background: var(--danger-dim);
+    color: #f87171;
+    border: 1px solid var(--danger-bdr);
+    border-radius: var(--r-md);
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--ease);
+}
+
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.22);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.45);
+}
+
+/* Sembunyikan teks saat sidebar collapse di layar kecil */
+@media (max-width: 900px) {
+    .logout-btn { font-size: 0; padding: 10px; }
+    .logout-btn::before { content: '🚪'; font-size: 16px; }
 }

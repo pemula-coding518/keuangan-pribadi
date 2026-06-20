@@ -2,96 +2,44 @@
 
 @section('content')
 
-<div class="container">
+<div class="page-header mb-4">
+    <h1 class="page-title">📈 Laporan Keuangan</h1>
+    <p class="page-subtitle">Pilih periode laporan yang ingin ditampilkan.</p>
+</div>
 
-    <h1 class="mb-4">
-        📈 Laporan Keuangan
-    </h1>
+<div class="row g-4">
 
-    <p class="text-muted mb-4">
-        Pilih periode laporan yang ingin ditampilkan.
-    </p>
-
-    <div class="row">
-
-        <div class="col-md-4 mb-3">
-
-            <div class="card h-100">
-
-                <div class="card-body">
-
-                    <h4>📅 Mingguan</h4>
-
-                    <p>
-                        Ringkasan transaksi minggu ini.
-                    </p>
-
-                    <a
-                        href="{{ route('transactions.report', 'weekly') }}"
-                        class="btn btn-primary">
-
-                        Lihat Laporan
-
-                    </a>
-
-                </div>
-
+    <div class="col-md-4">
+        <a href="{{ route('transactions.report', 'weekly') }}" class="report-option">
+            <div class="report-option-icon">📅</div>
+            <div class="report-option-title">Laporan Mingguan</div>
+            <div class="report-option-desc">
+                Ringkasan transaksi minggu ini. Pantau pola keuangan terkini dengan mudah.
             </div>
+            <div class="report-option-arrow">Lihat Laporan →</div>
+        </a>
+    </div>
 
-        </div>
-
-        <div class="col-md-4 mb-3">
-
-            <div class="card h-100">
-
-                <div class="card-body">
-
-                    <h4>🗓️ Bulanan</h4>
-
-                    <p>
-                        Ringkasan transaksi bulan ini.
-                    </p>
-
-                    <a
-                        href="{{ route('transactions.report', 'monthly') }}"
-                        class="btn btn-primary">
-
-                        Lihat Laporan
-
-                    </a>
-
-                </div>
-
+    <div class="col-md-4">
+        <a href="{{ route('transactions.report', 'monthly') }}" class="report-option">
+            <div class="report-option-icon">🗓️</div>
+            <div class="report-option-title">Laporan Bulanan</div>
+            <div class="report-option-desc">
+                Ringkasan transaksi bulan ini. Evaluasi anggaran dan pencapaian keuangan bulanan.
             </div>
+            <div class="report-option-arrow">Lihat Laporan →</div>
+        </a>
+    </div>
 
-        </div>
-
-        <div class="col-md-4 mb-3">
-
-            <div class="card h-100">
-
-                <div class="card-body">
-
-                    <h4>📆 Tahunan</h4>
-
-                    <p>
-                        Ringkasan transaksi tahun ini.
-                    </p>
-
-                    <a
-                        href="{{ route('transactions.report', 'yearly') }}"
-                        class="btn btn-primary">
-
-                        Lihat Laporan
-
-                    </a>
-
-                </div>
-
+    <div class="col-md-4">
+        <a href="{{ route('transactions.report', 'yearly') }}" class="report-option">
+            <div class="report-option-icon">📆</div>
+            <div class="report-option-title">Laporan Tahunan</div>
+            <div class="report-option-desc">
+                Ringkasan transaksi tahun ini. Lihat gambaran besar performa keuangan Anda.
             </div>
-
-        </div>
-
+            <div class="report-option-arrow">Lihat Laporan →</div>
+        </a>
     </div>
 
 </div>

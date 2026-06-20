@@ -2,101 +2,103 @@
 
 @section('content')
 
-<div class="container">
+<div class="page-header mb-4">
+    <h1 class="page-title">📊 Dashboard Keuangan</h1>
+    <p class="page-subtitle">Ringkasan keuangan Anda secara keseluruhan.</p>
+</div>
 
-    <h2 class="mb-4">
-        Dashboard Keuangan
-    </h2>
+<!-- ===================================================== -->
+<!-- STAT CARDS                                            -->
+<!-- ===================================================== -->
 
-    <div class="row">
+<div class="row g-3 mb-4">
 
-        <!-- Pemasukan -->
-        <div class="col-md-3 mb-3">
-            <div class="card bg-success text-white shadow">
-                <div class="card-body">
-                    <h5>Total Pemasukan</h5>
-                    <h3>Rp {{ number_format($income,0,',','.') }}</h3>
-                </div>
+    <div class="col-md-3">
+        <div class="stat-card success-card">
+            <div class="stat-title">Total Pemasukan</div>
+            <div class="stat-value text-income">
+                Rp {{ number_format($income, 0, ',', '.') }}
             </div>
+            <div class="stat-icon green">📈</div>
         </div>
-
-        <!-- Pengeluaran -->
-        <div class="col-md-3 mb-3">
-            <div class="card bg-danger text-white shadow">
-                <div class="card-body">
-                    <h5>Total Pengeluaran</h5>
-                    <h3>Rp {{ number_format($expense,0,',','.') }}</h3>
-                </div>
-            </div>
-        </div>
-
-        <!-- Saldo -->
-        <div class="col-md-3 mb-3">
-            <div class="card bg-primary text-white shadow">
-                <div class="card-body">
-                    <h5>Saldo</h5>
-                    <h3>Rp {{ number_format($balance,0,',','.') }}</h3>
-                </div>
-            </div>
-        </div>
-
-        <!-- Transaksi -->
-        <div class="col-md-3 mb-3">
-            <div class="card bg-warning shadow">
-                <div class="card-body">
-                    <h5>Jumlah Transaksi</h5>
-                    <h3>{{ $transactionCount }}</h3>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <!-- Transaksi terbaru -->
-    <div class="card shadow mt-4">
-        <div class="card-header">
-            Transaksi Terbaru
+    <div class="col-md-3">
+        <div class="stat-card danger-card">
+            <div class="stat-title">Total Pengeluaran</div>
+            <div class="stat-value text-expense">
+                Rp {{ number_format($expense, 0, ',', '.') }}
+            </div>
+            <div class="stat-icon red">📉</div>
         </div>
+    </div>
 
-        <div class="card-body">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-title">Saldo</div>
+            <div class="stat-value text-balance">
+                Rp {{ number_format($balance, 0, ',', '.') }}
+            </div>
+            <div class="stat-icon blue">💰</div>
+        </div>
+    </div>
 
-            <table class="table">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-title">Total Transaksi</div>
+            <div class="stat-value">
+                {{ $transactionCount }}
+            </div>
+            <div class="stat-icon amber">📋</div>
+        </div>
+    </div>
 
-                <thead>
+</div>
+
+<!-- ===================================================== -->
+<!-- TABEL TRANSAKSI TERBARU                               -->
+<!-- ===================================================== -->
+
+<div class="card">
+
+    <div class="card-header">
+        <h5 class="section-title">🕒 Transaksi Terbaru</h5>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Kategori</th>
+                    <th>Jumlah</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @forelse($latestTransactions as $transaction)
                     <tr>
-                        <th>Tanggal</th>
-                        <th>Kategori</th>
-                        <th>Jumlah</th>
+                        <td>{{ \Carbon\Carbon::parse($transaction->transaction_date)->format('d-m-Y') }}</td>
+                        <td class="category-col">{{ $transaction->category->name ?? '-' }}</td>
+                        <td>Rp {{ number_format($transaction->amount, 0, ',', '.') }}</td>
                     </tr>
-                </thead>
+                @empty
+                    <tr>
+                        <td colspan="3">
+                            <div class="empty-state">
+                                <div class="ei">📂</div>
+                                <h5>Belum ada transaksi</h5>
+                                <p>Tambahkan transaksi pertama Anda.</p>
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
 
-                <tbody>
+            </tbody>
 
-                    @forelse($latestTransactions as $transaction)
-
-                        <tr>
-                            <td>{{ $transaction->transaction_date }}</td>
-                            <td>{{ $transaction->category->name }}</td>
-                            <td>
-                                Rp {{ number_format($transaction->amount,0,',','.') }}
-                            </td>
-                        </tr>
-
-                    @empty
-
-                        <tr>
-                            <td colspan="3" class="text-center">
-                                Belum ada transaksi
-                            </td>
-                        </tr>
-
-                    @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
+        </table>
     </div>
 
 </div>

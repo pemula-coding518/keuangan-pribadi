@@ -6,19 +6,14 @@
 <!-- PAGE HEADER                                           -->
 <!-- ===================================================== -->
 
-<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+<div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
 
     <div>
-
         <h1 class="page-title">💰 Money Tracker</h1>
-
-        <p class="page-subtitle">
-            Kelola seluruh transaksi keuangan Anda.
-        </p>
-
+        <p class="page-subtitle">Kelola seluruh transaksi keuangan Anda.</p>
     </div>
 
-    <a href="{{ route('transactions.create') }}" class="add-btn">
+    <a href="{{ route('transactions.create') }}" class="btn btn-primary">
         + Tambah Data
     </a>
 
@@ -29,56 +24,28 @@
 <!-- ===================================================== -->
 
 @if(session('success'))
-
-    <div class="alert alert-success alert-dismissible fade show">
-
+    <div class="alert alert-success alert-dismissible fade show mb-4">
         {{ session('success') }}
-
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-
     </div>
-
 @endif
 
 <!-- ===================================================== -->
-<!-- SEARCH BOX                                            -->
+<!-- SEARCH (compact, tanpa card wrapper)                  -->
 <!-- ===================================================== -->
 
-<div class="card mb-4">
-
-    <div class="card-body">
-
-        <form method="GET" action="{{ route('transactions.list') }}">
-
-            <div class="row g-2">
-
-                <div class="col-md-10">
-
-                    <input
-                        type="text"
-                        name="search"
-                        class="form-control"
-                        placeholder="Cari judul transaksi..."
-                        value="{{ request('search') }}"
-                    >
-
-                </div>
-
-                <div class="col-md-2">
-
-                    <button type="submit" class="btn btn-primary w-100">
-                        🔍 Cari
-                    </button>
-
-                </div>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
+<form method="GET" action="{{ route('transactions.list') }}" class="d-flex gap-2 mb-4">
+    <input
+        type="text"
+        name="search"
+        class="form-control"
+        placeholder="Cari judul transaksi..."
+        value="{{ request('search') }}"
+    >
+    <button type="submit" class="btn btn-primary" style="white-space:nowrap">
+        🔍 Cari
+    </button>
+</form>
 
 <!-- ===================================================== -->
 <!-- TABLE CARD                                            -->
@@ -86,28 +53,16 @@
 
 <div class="card">
 
-    <!-- HEADER -->
     <div class="card-header">
-
-        <h5 class="section-title">
-            📋 Daftar Transaksi
-        </h5>
-
-        <p class="section-sub mb-0">
-            Semua pemasukan dan pengeluaran Anda tercatat di sini.
-        </p>
-
+        <h5 class="section-title">📋 Daftar Transaksi</h5>
+        <p class="section-sub mb-0">Semua pemasukan dan pengeluaran Anda tercatat di sini.</p>
     </div>
 
-    <!-- TABLE -->
     <div class="table-responsive">
-
         <table class="table">
 
             <thead>
-
                 <tr>
-
                     <th>No</th>
                     <th>Judul</th>
                     <th>Kategori</th>
@@ -115,9 +70,7 @@
                     <th>Jumlah</th>
                     <th>Tanggal</th>
                     <th>Aksi</th>
-
                 </tr>
-
             </thead>
 
             <tbody>
@@ -127,11 +80,7 @@
                     <tr>
 
                         <td>
-                            {{
-                                ($transactions->currentPage() - 1)
-                                * $transactions->perPage()
-                                + $loop->iteration
-                            }}
+                            {{ ($transactions->currentPage() - 1) * $transactions->perPage() + $loop->iteration }}
                         </td>
 
                         <td class="transaction-title">
@@ -143,21 +92,11 @@
                         </td>
 
                         <td>
-
                             @if($item->type == 'pemasukan')
-
-                                <span class="income-badge">
-                                    ⬆ Pemasukan
-                                </span>
-
+                                <span class="income-badge">⬆ Pemasukan</span>
                             @else
-
-                                <span class="expense-badge">
-                                    ⬇ Pengeluaran
-                                </span>
-
+                                <span class="expense-badge">⬇ Pengeluaran</span>
                             @endif
-
                         </td>
 
                         <td>
@@ -169,20 +108,15 @@
                         </td>
 
                         <td>
-
                             <div class="d-flex gap-2 flex-wrap">
 
-                                <a href="{{ route('transactions.edit', $item->id) }}"
-                                   class="btn-act-edit">
+                                <a href="{{ route('transactions.edit', $item->id) }}" class="btn-act-edit">
                                     ✏ Edit
                                 </a>
 
-                                <form action="{{ route('transactions.destroy', $item->id) }}"
-                                      method="POST">
-
+                                <form action="{{ route('transactions.destroy', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-
                                     <button
                                         type="submit"
                                         class="btn-act-delete"
@@ -190,11 +124,9 @@
                                     >
                                         🗑 Hapus
                                     </button>
-
                                 </form>
 
                             </div>
-
                         </td>
 
                     </tr>
@@ -202,21 +134,13 @@
                 @empty
 
                     <tr>
-
                         <td colspan="7">
-
                             <div class="empty-state">
-
                                 <div class="ei">📂</div>
-
                                 <h5>Belum Ada Transaksi</h5>
-
                                 <p>Silakan tambahkan transaksi pertama Anda.</p>
-
                             </div>
-
                         </td>
-
                     </tr>
 
                 @endforelse
@@ -224,7 +148,6 @@
             </tbody>
 
         </table>
-
     </div>
 
 </div>
