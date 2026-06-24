@@ -10,7 +10,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Auth;
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
@@ -29,11 +28,6 @@ Route::post('/login', [AuthController::class, 'login'])
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
-    // Route::get('/laporan', [ReportController::class, 'index'])
-//     ->name('reports.index');
-Route::get('/tools', function () {
-    return view('tools.index');
-})->name('tools.index');
 /*
 |--------------------------------------------------------------------------
 | Redirect halaman utama
@@ -50,28 +44,40 @@ Route::get('/', [TransactionController::class, 'index']);
 Route::middleware('auth')->group(function () {
 
     /*
-|--------------------------------------------------------------------------
-| Halaman Pilihan Laporan
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/reports', function () {
-    return view('reports.index');
-})->name('reports.index');
-
-Route::get('/report/{period}', [TransactionController::class, 'report'])
-    ->name('transactions.report');
-
-
-/*
     |--------------------------------------------------------------------------
-    | Laporan
+    | Halaman Pilihan Laporan
     |--------------------------------------------------------------------------
     */
+
+    Route::get('/reports', function () {
+        return view('reports.index');
+    })->name('reports.index');
+
     Route::get('/report/{period}', [TransactionController::class, 'report'])
         ->name('transactions.report');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tools (pindah ke sini supaya halaman & form import-nya butuh login)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/tools', function () {
+        return view('tools.index');
+    })->name('tools.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Import / Export
+    |--------------------------------------------------------------------------
+    */
     Route::get('/transactions/export', [TransactionController::class, 'export'])
-    ->name('transactions.export');
+        ->name('transactions.export');
+
+    Route::post('/transactions/import', [TransactionController::class, 'import'])
+        ->name('transactions.import');
+
+    Route::get('/transactions/import/template', [TransactionController::class, 'importTemplate'])
+        ->name('transactions.import.template');
 
     /*
     |--------------------------------------------------------------------------
@@ -84,14 +90,14 @@ Route::get('/report/{period}', [TransactionController::class, 'report'])
 
     Route::get('/transactions-list', function () {
 
-    $transactions = App\Models\Transaction::with('category')
-        ->latest()
-        ->paginate(5);
+        $transactions = App\Models\Transaction::with('category')
+            ->latest()
+            ->paginate(5);
 
-    return view(
-        'transactions.list',
-        compact('transactions')
-    );
+        return view(
+            'transactions.list',
+            compact('transactions')
+        );
 
-})->name('transactions.list');
+    })->name('transactions.list');
 });

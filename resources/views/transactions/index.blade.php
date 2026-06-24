@@ -17,54 +17,64 @@
 </div>
 
 <!-- ===================================================== -->
-<!-- RINGKASAN STATISTIK                                  -->
+<!-- BALANCE HERO                                          -->
 <!-- ===================================================== -->
 
-<div class="row g-3 mb-5">
+<div class="balance-hero">
 
-    <div class="col-md-4">
+    <div class="balance-hero-top">
 
-        <div class="stat-card success-card">
+        <div>
+            <div class="balance-hero-label">
+                <i class="ti ti-wallet"></i> Total Saldo
+            </div>
 
-            <div class="stat-title">Total Saldo</div>
-
-            <div class="stat-value text-balance">
+            <div class="balance-hero-value">
                 Rp {{ number_format($balance,0,',','.') }}
             </div>
 
-            <div class="stat-icon blue">💰</div>
+            <div class="balance-hero-caption">
+                Diperbarui {{ now()->format('d M Y') }}
+            </div>
+        </div>
 
+        <div class="balance-hero-badge">
+            <i class="ti ti-trending-up"></i>
         </div>
 
     </div>
 
-    <div class="col-md-4">
+</div>
+
+<div class="row g-3 mb-5">
+
+    <div class="col-md-6">
 
         <div class="stat-card success-card">
 
-            <div class="stat-title">Total Pemasukan</div>
+            <div class="stat-title"><i class="ti ti-trending-up"></i> Total Pemasukan</div>
 
             <div class="stat-value text-income">
                 Rp {{ number_format($totalIncome,0,',','.') }}
             </div>
 
-            <div class="stat-icon green">📈</div>
+            <div class="stat-icon green"><i class="ti ti-trending-up"></i></div>
 
         </div>
 
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
 
         <div class="stat-card danger-card">
 
-            <div class="stat-title">Total Pengeluaran</div>
+            <div class="stat-title"><i class="ti ti-trending-down"></i> Total Pengeluaran</div>
 
             <div class="stat-value text-expense">
                 Rp {{ number_format($totalExpense,0,',','.') }}
             </div>
 
-            <div class="stat-icon red">📉</div>
+            <div class="stat-icon red"><i class="ti ti-trending-down"></i></div>
 
         </div>
 
@@ -90,18 +100,18 @@
 
             <div class="report-option">
 
-                <div class="report-option-icon">📅</div>
+                <div class="report-option-icon"><i class="ti ti-calendar-week"></i></div>
 
                 <div class="report-option-title">Minggu Ini</div>
 
                 <div class="report-option-desc">
 
                     <div class="period-val income">
-                        Pemasukan: Rp {{ number_format($weeklyIncome, 0, ',', '.') }}
+                        <i class="ti ti-arrow-up-right"></i> Pemasukan: Rp {{ number_format($weeklyIncome, 0, ',', '.') }}
                     </div>
 
                     <div class="period-val expense">
-                        Pengeluaran: Rp {{ number_format($weeklyExpense, 0, ',', '.') }}
+                        <i class="ti ti-arrow-down-right"></i> Pengeluaran: Rp {{ number_format($weeklyExpense, 0, ',', '.') }}
                     </div>
 
                 </div>
@@ -123,18 +133,18 @@
 
             <div class="report-option">
 
-                <div class="report-option-icon">📆</div>
+                <div class="report-option-icon"><i class="ti ti-calendar-month"></i></div>
 
                 <div class="report-option-title">Bulan Ini</div>
 
                 <div class="report-option-desc">
 
                     <div class="period-val income">
-                        Pemasukan: Rp {{ number_format($monthlyIncome, 0, ',', '.') }}
+                        <i class="ti ti-arrow-up-right"></i> Pemasukan: Rp {{ number_format($monthlyIncome, 0, ',', '.') }}
                     </div>
 
                     <div class="period-val expense">
-                        Pengeluaran: Rp {{ number_format($monthlyExpense, 0, ',', '.') }}
+                        <i class="ti ti-arrow-down-right"></i> Pengeluaran: Rp {{ number_format($monthlyExpense, 0, ',', '.') }}
                     </div>
 
                 </div>
@@ -156,18 +166,18 @@
 
             <div class="report-option">
 
-                <div class="report-option-icon">🗓️</div>
+                <div class="report-option-icon"><i class="ti ti-calendar-stats"></i></div>
 
                 <div class="report-option-title">Tahun Ini</div>
 
                 <div class="report-option-desc">
 
                     <div class="period-val income">
-                        Pemasukan: Rp {{ number_format($yearlyIncome, 0, ',', '.') }}
+                        <i class="ti ti-arrow-up-right"></i> Pemasukan: Rp {{ number_format($yearlyIncome, 0, ',', '.') }}
                     </div>
 
                     <div class="period-val expense">
-                        Pengeluaran: Rp {{ number_format($yearlyExpense, 0, ',', '.') }}
+                        <i class="ti ti-arrow-down-right"></i> Pengeluaran: Rp {{ number_format($yearlyExpense, 0, ',', '.') }}
                     </div>
 
                 </div>
@@ -192,6 +202,7 @@
 
     <div class="alert alert-success alert-dismissible fade show">
 
+        <i class="ti ti-circle-check"></i>
         {{ session('success') }}
 
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -211,7 +222,7 @@
         <div class="chart-card">
 
             <div class="chart-card-header">
-                <h5 class="chart-card-title">📈 Tren Keuangan</h5>
+                <h5 class="chart-card-title"><i class="ti ti-chart-line"></i> Tren Keuangan</h5>
             </div>
 
             <div class="chart-card-body fixed-chart">
@@ -227,7 +238,7 @@
         <div class="chart-card">
 
             <div class="chart-card-header">
-                <h5 class="chart-card-title">📊 Pengeluaran per Kategori</h5>
+                <h5 class="chart-card-title"><i class="ti ti-chart-pie"></i> Pengeluaran per Kategori</h5>
             </div>
 
             <div class="chart-card-body fixed-chart">

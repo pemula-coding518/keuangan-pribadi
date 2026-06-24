@@ -9,6 +9,9 @@
     {{-- Bootstrap CSS (base grid & komponen) --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    {{-- Tabler Icons (ikon, menggantikan emoji) --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.34.0/dist/tabler-icons.min.css">
+
     {{-- Design System (override Bootstrap) --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -21,7 +24,7 @@
     <aside class="sidebar">
 
         <a href="{{ route('transactions.index') }}" class="logo">
-            <span class="logo-emoji">💰</span>
+            <span class="logo-icon"><i class="ti ti-wallet"></i></span>
             <span class="logo-text">
                 Keuangan Pribadi
                 <small>Personal Finance</small>
@@ -33,7 +36,7 @@
             <li>
                 <a href="{{ route('transactions.index') }}"
                    class="{{ request()->routeIs('transactions.index') ? 'active-menu' : '' }}">
-                    <span class="menu-icon">📊</span>
+                    <span class="menu-icon"><i class="ti ti-layout-dashboard"></i></span>
                     <span>Dashboard</span>
                 </a>
             </li>
@@ -41,7 +44,7 @@
             <li>
                 <a href="{{ route('transactions.list') }}"
                    class="{{ request()->routeIs('transactions.list') ? 'active-menu' : '' }}">
-                    <span class="menu-icon">💰</span>
+                    <span class="menu-icon"><i class="ti ti-receipt-2"></i></span>
                     <span>Money Tracker</span>
                 </a>
             </li>
@@ -49,7 +52,7 @@
             <li>
                 <a href="{{ route('categories.index') }}"
                    class="{{ request()->routeIs('categories.*') ? 'active-menu' : '' }}">
-                    <span class="menu-icon">🏷️</span>
+                    <span class="menu-icon"><i class="ti ti-tags"></i></span>
                     <span>Kategori</span>
                 </a>
             </li>
@@ -57,7 +60,7 @@
             <li>
                 <a href="{{ route('reports.index') }}"
                    class="{{ request()->routeIs('reports.*') ? 'active-menu' : '' }}">
-                    <span class="menu-icon">📈</span>
+                    <span class="menu-icon"><i class="ti ti-chart-line"></i></span>
                     <span>Laporan</span>
                 </a>
             </li>
@@ -65,27 +68,29 @@
             <li>
                 <a href="{{ route('tools.index') }}"
                    class="{{ request()->routeIs('tools.index') ? 'active-menu' : '' }}">
-                    <span class="menu-icon">📂</span>
+                    <span class="menu-icon"><i class="ti ti-file-export"></i></span>
                     <span>Import / Export</span>
                 </a>
             </li>
 
         </ul>
 
-       <div class="sidebar-footer">
+        <div class="sidebar-footer">
 
-    <a href="{{ route('transactions.create') }}" class="add-btn">
-        + Tambah Data
-    </a>
+            <a href="{{ route('transactions.create') }}" class="add-btn">
+                <i class="ti ti-plus"></i>
+                <span>Tambah Data</span>
+            </a>
 
-    <form action="{{ route('logout') }}" method="POST" class="mt-2">
-        @csrf
-        <button type="submit" class="logout-btn">
-            🚪 Keluar
-        </button>
-    </form>
+            <form action="{{ route('logout') }}" method="POST" class="mt-2">
+                @csrf
+                <button type="submit" class="logout-btn">
+                    <i class="ti ti-logout-2"></i>
+                    <span>Keluar</span>
+                </button>
+            </form>
 
-</div>
+        </div>
 
     </aside>
 

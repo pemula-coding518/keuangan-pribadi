@@ -6,7 +6,7 @@
 
     <div>
         <h1 class="page-title">
-            📁 {{ $category->name }}
+            <i class="ti ti-tag"></i> {{ $category->name }}
         </h1>
 
         <p class="page-subtitle">
@@ -16,7 +16,7 @@
 
     <a href="{{ route('categories.index') }}"
        class="btn btn-secondary">
-        ← Kembali
+        <i class="ti ti-arrow-left"></i> Kembali
     </a>
 
 </div>
@@ -29,7 +29,7 @@
         <div class="stat-card">
 
             <div class="stat-title">
-                Total Transaksi
+                <i class="ti ti-list-details"></i> Total Transaksi
             </div>
 
             <div class="stat-value">
@@ -45,7 +45,7 @@
         <div class="stat-card">
 
             <div class="stat-title">
-                Total Nominal
+                <i class="ti ti-wallet"></i> Total Nominal
             </div>
 
             <div class="stat-value">
@@ -62,7 +62,7 @@
 <div class="card overflow-hidden">
 
     <div class="card-header">
-        <h4 class="section-title">📊 Transaksi dalam Kategori</h4>
+        <h4 class="section-title"><i class="ti ti-list-details"></i> Transaksi dalam Kategori</h4>
     </div>
 
     <div class="table-responsive">

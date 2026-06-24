@@ -4,9 +4,7 @@
 
 <div class="page-header">
 
-<h1 class="page-title">
-    ✏ Edit Transaksi
-</h1>
+<h1 class="page-title"><i class="ti ti-pencil"></i> Edit Transaksi</h1>
 
 <p class="page-subtitle">
     Perbarui data transaksi Anda dengan mudah dan rapi.
@@ -21,6 +19,8 @@
     @if ($errors->any())
 
         <div class="alert alert-danger mb-4">
+
+            <i class="ti ti-alert-circle"></i>
 
             <ul class="mb-0">
 
@@ -172,14 +172,14 @@
                 type="submit"
                 class="btn btn-primary"
             >
-                💾 Simpan Perubahan
+                <i class="ti ti-device-floppy"></i> Simpan Perubahan
             </button>
 
             <a
                 href="{{ route('transactions.index') }}"
                 class="btn btn-secondary"
             >
-                ← Batal
+                <i class="ti ti-arrow-left"></i> Batal
             </a>
 
         </div>

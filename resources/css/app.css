@@ -1,8 +1,9 @@
 /* ============================================================ */
-/*  KEUANGAN PRIBADI — Premium Blue Design System               */
+/*  KEUANGAN PRIBADI — Premium Blue Design System                */
+/*  v2: luxury pass — brass accent, serif display, real icons    */
 /* ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap');
 
 :root {
     /* Background Scale */
@@ -13,7 +14,7 @@
     --bg-input:     #051019;
     --bg-hover:     rgba(37, 99, 235, 0.06);
 
-    /* Blue Palette */
+    /* Blue Palette (primary brand) */
     --blue-900:     #1e3a8a;
     --blue-800:     #1e40af;
     --blue-700:     #1d4ed8;
@@ -21,6 +22,12 @@
     --blue-500:     #3b82f6;
     --blue-400:     #60a5fa;
     --blue-300:     #93c5fd;
+
+    /* Brass — the one luxury accent, used sparingly */
+    --brass:        #c9a961;
+    --brass-soft:   #e3cb8e;
+    --brass-dim:    rgba(201, 169, 97, 0.12);
+    --brass-bdr:    rgba(201, 169, 97, 0.30);
 
     /* Borders */
     --border:       rgba(59, 130, 246, 0.11);
@@ -44,9 +51,14 @@
     --text-3:       #475569;
     --text-4:       #1e3a5f;
 
+    /* Type */
+    --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+    --font-display: 'Fraunces', 'Georgia', serif;
+
     /* Glow */
     --glow-blue:    0 0 40px rgba(37, 99, 235, 0.18);
     --glow-sm:      0 0 20px rgba(37, 99, 235, 0.10);
+    --glow-brass:   0 0 50px rgba(201, 169, 97, 0.14);
 
     /* Radius */
     --r-lg:         16px;
@@ -70,7 +82,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-body);
     background: var(--bg-page);
     color: var(--text-1);
     -webkit-font-smoothing: antialiased;
@@ -80,6 +92,9 @@ body {
         radial-gradient(ellipse 80% 50% at 15% 10%, rgba(29, 78, 216, 0.07) 0%, transparent 60%),
         radial-gradient(ellipse 60% 40% at 85% 90%, rgba(37, 99, 235, 0.05) 0%, transparent 55%);
 }
+
+/* Tabler icon font — nudge baseline to sit nicely next to text */
+.ti { vertical-align: -2px; line-height: 1; }
 
 /* ============================================================ */
 /*  LAYOUT                                                       */
@@ -127,21 +142,35 @@ body {
 }
 
 .logo:hover {
-    border-color: var(--border-hi);
+    border-color: var(--brass-bdr);
 }
 
-.logo-emoji { font-size: 22px; line-height: 1; }
+.logo-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-sm);
+    background: rgba(201, 169, 97, 0.12);
+    border: 1px solid var(--brass-bdr);
+    color: var(--brass-soft);
+    font-size: 17px;
+}
 
 .logo-text {
-    font-size: 14px;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
     color: var(--text-1);
-    letter-spacing: -0.4px;
-    line-height: 1.1;
+    letter-spacing: -0.2px;
+    line-height: 1.15;
 }
 
 .logo-text small {
     display: block;
+    font-family: var(--font-body);
     font-size: 10px;
     font-weight: 500;
     color: var(--text-3);
@@ -199,7 +228,7 @@ body {
     justify-content: center;
     border-radius: var(--r-xs);
     background: rgba(255,255,255,0.03);
-    font-size: 15px;
+    font-size: 16px;
     flex-shrink: 0;
     transition: var(--ease);
 }
@@ -280,19 +309,112 @@ body {
 }
 
 .page-title {
-    font-size: 24px;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 600;
     color: var(--text-1);
-    letter-spacing: -0.6px;
-    line-height: 1.15;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.page-title .ti {
+    font-size: 0.78em;
+    color: var(--brass-soft);
 }
 
 .page-subtitle {
+    font-family: var(--font-body);
     font-size: 13.5px;
     color: var(--text-2);
-    margin: 4px 0 0;
+    margin: 6px 0 0;
     font-weight: 400;
+}
+
+/* ============================================================ */
+/*  BALANCE HERO — the one signature moment                      */
+/* ============================================================ */
+
+.balance-hero {
+    background: linear-gradient(160deg, var(--bg-card) 0%, var(--bg-card-2) 100%);
+    border: 1px solid var(--brass-bdr);
+    border-radius: var(--r-lg);
+    padding: 30px 34px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 18px;
+}
+
+.balance-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--brass) 0%, var(--blue-400) 65%, transparent);
+}
+
+.balance-hero::after {
+    content: '';
+    position: absolute;
+    top: -60%; right: -8%;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(201,169,97,0.10) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.balance-hero-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+}
+
+.balance-hero-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--brass-soft);
+    margin-bottom: 14px;
+}
+
+.balance-hero-value {
+    font-family: var(--font-display);
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--text-1);
+    letter-spacing: -0.5px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.balance-hero-caption {
+    font-size: 12.5px;
+    color: var(--text-3);
+    margin-top: 14px;
+    position: relative;
+}
+
+.balance-hero-badge {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: var(--r-md);
+    background: rgba(201, 169, 97, 0.12);
+    border: 1px solid var(--brass-bdr);
+    color: var(--brass-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
 }
 
 /* ============================================================ */
@@ -343,6 +465,9 @@ body {
     text-transform: uppercase;
     color: var(--text-3);
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .stat-value {
@@ -367,10 +492,10 @@ body {
     font-size: 18px;
 }
 
-.stat-icon.blue   { background: rgba(37,99,235,0.15); }
-.stat-icon.green  { background: rgba(16,185,129,0.15); }
-.stat-icon.red    { background: rgba(239,68,68,0.15); }
-.stat-icon.amber  { background: rgba(245,158,11,0.15); }
+.stat-icon.blue   { background: rgba(37,99,235,0.15); color: var(--blue-300); }
+.stat-icon.green  { background: rgba(16,185,129,0.15); color: #4ade80; }
+.stat-icon.red    { background: rgba(239,68,68,0.15); color: #f87171; }
+.stat-icon.amber  { background: rgba(245,158,11,0.15); color: #fbbf24; }
 
 .text-income  { color: #4ade80; }
 .text-expense { color: #f87171; }
@@ -424,6 +549,9 @@ body {
     font-weight: 700;
     color: var(--text-1);
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* ============================================================ */
@@ -470,6 +598,9 @@ body {
     text-transform: uppercase;
     color: var(--text-3);
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .period-card-title {
@@ -479,7 +610,7 @@ body {
     margin-bottom: 14px;
 }
 
-.period-val { font-size: 13px; font-weight: 600; margin: 4px 0; }
+.period-val { font-size: 13px; font-weight: 600; margin: 4px 0; display: flex; align-items: center; gap: 6px; }
 .period-val.income  { color: #4ade80; }
 .period-val.expense { color: #f87171; }
 
@@ -532,7 +663,6 @@ body {
     color: var(--text-1);
 }
 
-/* Hapus border bawah di baris terakhir agar tidak double dengan card border */
 .table tbody tr:last-child > td {
     border-bottom: none !important;
 }
@@ -639,6 +769,9 @@ body {
     padding: 10px 20px !important;
     transition: var(--ease) !important;
     letter-spacing: 0.1px;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 7px;
 }
 
 .btn-primary {
@@ -733,6 +866,34 @@ body {
 
 .form-control::placeholder { color: var(--text-3) !important; }
 
+/* File input — restyle the native "Choose File" button */
+.form-control[type="file"] {
+    cursor: pointer;
+    padding: 9px 14px !important;
+}
+
+.form-control[type="file"]::file-selector-button,
+.form-control[type="file"]::-webkit-file-upload-button {
+    margin-right: 14px;
+    padding: 7px 14px;
+    border-radius: var(--r-xs);
+    border: 1px solid var(--border-md);
+    background: rgba(37, 99, 235, 0.15);
+    color: var(--blue-300);
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--ease);
+}
+
+.form-control[type="file"]:hover::file-selector-button,
+.form-control[type="file"]:hover::-webkit-file-upload-button {
+    background: rgba(37, 99, 235, 0.25);
+    color: #bfdbfe;
+    border-color: var(--border-hi);
+}
+
 .form-control:focus, .form-select:focus {
     background: rgba(4, 14, 28, 0.95) !important;
     border-color: var(--blue-500) !important;
@@ -768,6 +929,9 @@ textarea.form-control {
     border: none !important;
     font-size: 13.5px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 9px;
 }
 
 .alert-success {
@@ -833,9 +997,10 @@ textarea.form-control {
 }
 
 .empty-state .ei {
-    font-size: 44px;
+    font-size: 38px;
     margin-bottom: 14px;
-    opacity: 0.7;
+    opacity: 0.6;
+    color: var(--text-3);
 }
 
 .empty-state h5 {
@@ -860,6 +1025,9 @@ textarea.form-control {
     font-weight: 700;
     color: var(--text-1);
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .section-sub {
@@ -908,9 +1076,10 @@ textarea.form-control {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 21px;
     background: rgba(37,99,235,0.12);
     border: 1px solid var(--border-md);
+    color: var(--blue-300);
     margin-bottom: 18px;
 }
 
@@ -962,9 +1131,22 @@ textarea.form-control {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 21px;
     margin-bottom: 16px;
-    /* border added inline per card for semantic color */
+}
+
+.tool-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-1);
+    margin-bottom: 8px;
+}
+
+.tool-desc {
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.6;
+    margin-bottom: 24px;
 }
 
 /* ============================================================ */
@@ -1023,15 +1205,18 @@ textarea.form-control {
     .logo { justify-content: center; gap: 0; padding: 10px; }
     .menu a { justify-content: center; padding: 10px; }
     .menu-icon { margin: 0; }
-    .sidebar-footer .add-btn { font-size: 0; padding: 12px; }
-    .sidebar-footer .add-btn::before { content: '+'; font-size: 18px; }
+    .sidebar-footer .add-btn span:not(.ti) { display: none; }
+    .sidebar-footer .add-btn { padding: 12px; }
     .content { padding: 20px 18px; }
+    .balance-hero-value { font-size: 32px; }
 }
 
 @media (max-width: 576px) {
     .content { padding: 16px 14px; }
     .stat-value { font-size: 18px; }
-    .page-title { font-size: 20px; }
+    .page-title { font-size: 21px; }
+    .balance-hero { padding: 24px 22px; }
+    .balance-hero-value { font-size: 28px; }
 }
 
 /* ============================================================ */
@@ -1079,7 +1264,9 @@ textarea.form-control {
 }
 
 /* ============================================================ */
-/*  LOGOUT                                                      */ 
+/*  LOGOUT                                                       */
+/* ============================================================ */
+
 .logout-btn {
     display: flex;
     align-items: center;
@@ -1104,8 +1291,7 @@ textarea.form-control {
     border-color: rgba(239, 68, 68, 0.45);
 }
 
-/* Sembunyikan teks saat sidebar collapse di layar kecil */
 @media (max-width: 900px) {
-    .logout-btn { font-size: 0; padding: 10px; }
-    .logout-btn::before { content: '🚪'; font-size: 16px; }
+    .logout-btn span:not(.ti) { display: none; }
+    .logout-btn { padding: 10px; }
 }

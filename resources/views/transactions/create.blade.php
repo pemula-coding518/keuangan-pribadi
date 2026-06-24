@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="page-header">
-    <h1 class="page-title">Tambah Catatan</h1>
+    <h1 class="page-title"><i class="ti ti-square-plus"></i> Tambah Catatan</h1>
     <p class="page-subtitle">
         Catat pemasukan dan pengeluaran dengan mudah dan rapi.
     </p>
@@ -15,6 +15,7 @@
 
     @if ($errors->any())
         <div class="alert alert-danger mb-4">
+            <i class="ti ti-alert-circle"></i>
             <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -128,14 +129,14 @@
                 type="submit"
                 class="btn btn-primary"
             >
-                💾 Simpan Transaksi
+                <i class="ti ti-device-floppy"></i> Simpan Transaksi
             </button>
 
             <a
                 href="{{ route('transactions.index') }}"
                 class="btn btn-secondary"
             >
-                ← Kembali
+                <i class="ti ti-arrow-left"></i> Kembali
             </a>
 
         </div>

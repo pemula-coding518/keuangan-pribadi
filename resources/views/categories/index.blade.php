@@ -6,7 +6,7 @@
 
     <div>
         <h1 class="page-title fw-bold mb-1">
-            📁 Kategori Transaksi
+            <i class="ti ti-tags"></i> Kategori Transaksi
         </h1>
 
         <p class="page-subtitle">
@@ -24,7 +24,7 @@
         <div class="stat-card danger-card">
 
             <div class="stat-title">
-                Kategori Pengeluaran Terbesar
+                <i class="ti ti-trending-down"></i> Kategori Pengeluaran Terbesar
             </div>
 
             @if($topExpense)
@@ -52,7 +52,7 @@
         <div class="stat-card success-card">
 
             <div class="stat-title">
-                Kategori Pemasukan Terbesar
+                <i class="ti ti-trending-up"></i> Kategori Pemasukan Terbesar
             </div>
 
             @if($topIncome)
@@ -81,7 +81,7 @@
 <div class="stat-card mb-4">
 
     <div class="stat-title">
-        Total Seluruh Transaksi
+        <i class="ti ti-list-details"></i> Total Seluruh Transaksi
     </div>
 
     <div class="stat-value">
@@ -98,7 +98,7 @@
 <div class="card overflow-hidden">
 
     <div class="card-header">
-        <h4 class="section-title">📊 Daftar Kategori</h4>
+        <h4 class="section-title"><i class="ti ti-list-details"></i> Daftar Kategori</h4>
     </div>
 
     <div class="table-responsive">
@@ -127,9 +127,9 @@
 
                     <td>
                         @if($category->type == 'income')
-                            <span class="income-badge">⬆ Income</span>
+                            <span class="income-badge"><i class="ti ti-arrow-up-right"></i> Income</span>
                         @elseif($category->type == 'expense')
-                            <span class="expense-badge">⬇ Expense</span>
+                            <span class="expense-badge"><i class="ti ti-arrow-down-right"></i> Expense</span>
                         @else
                             <span class="cat-type-badge other">Other</span>
                         @endif
@@ -146,7 +146,7 @@
                     <td>
                         <a href="{{ route('categories.show', $category) }}"
                            class="btn-act-edit">
-                            👁 Lihat
+                            <i class="ti ti-eye"></i> Lihat
                         </a>
                     </td>
 

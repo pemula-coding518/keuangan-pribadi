@@ -25,7 +25,7 @@
 <div class="mb-4">
 
     <a href="{{ route('transactions.index') }}" class="btn btn-secondary">
-        ← Kembali
+        <i class="ti ti-arrow-left"></i> Kembali
     </a>
 
 </div>
@@ -58,8 +58,8 @@
 
             </div>
 
-            <div style="font-size:32px;">
-                📅
+            <div style="font-size:30px; color:var(--blue-300);">
+                <i class="ti ti-calendar"></i>
             </div>
 
         </div>
@@ -79,13 +79,13 @@
 
         <div class="stat-card success-card">
 
-            <div class="stat-title">Total Pemasukan</div>
+            <div class="stat-title"><i class="ti ti-trending-up"></i> Total Pemasukan</div>
 
             <div class="stat-value text-income">
                 Rp {{ number_format($income, 0, ',', '.') }}
             </div>
 
-            <div class="stat-icon green">📈</div>
+            <div class="stat-icon green"><i class="ti ti-trending-up"></i></div>
 
         </div>
 
@@ -96,13 +96,13 @@
 
         <div class="stat-card danger-card">
 
-            <div class="stat-title">Total Pengeluaran</div>
+            <div class="stat-title"><i class="ti ti-trending-down"></i> Total Pengeluaran</div>
 
             <div class="stat-value text-expense">
                 Rp {{ number_format($expense, 0, ',', '.') }}
             </div>
 
-            <div class="stat-icon red">📉</div>
+            <div class="stat-icon red"><i class="ti ti-trending-down"></i></div>
 
         </div>
 
@@ -113,13 +113,13 @@
 
         <div class="stat-card">
 
-            <div class="stat-title">Sisa Saldo</div>
+            <div class="stat-title"><i class="ti ti-wallet"></i> Sisa Saldo</div>
 
             <div class="stat-value text-balance">
                 Rp {{ number_format($balance, 0, ',', '.') }}
             </div>
 
-            <div class="stat-icon blue">💰</div>
+            <div class="stat-icon blue"><i class="ti ti-wallet"></i></div>
 
         </div>
 
@@ -136,9 +136,7 @@
     <!-- HEADER -->
     <div class="card-header">
 
-        <h5 class="section-title mb-0">
-            📋 Daftar Transaksi
-        </h5>
+        <h5 class="section-title mb-0"><i class="ti ti-list-details"></i> Daftar Transaksi</h5>
 
     </div>
 
@@ -181,13 +179,13 @@
                             @if($item->type == 'pemasukan')
 
                                 <span class="income-badge">
-                                    ↑ Pemasukan
+                                    <i class="ti ti-arrow-up-right"></i> Pemasukan
                                 </span>
 
                             @else
 
                                 <span class="expense-badge">
-                                    ↓ Pengeluaran
+                                    <i class="ti ti-arrow-down-right"></i> Pengeluaran
                                 </span>
 
                             @endif
@@ -212,7 +210,7 @@
 
                             <div class="empty-state">
 
-                                <div class="ei">📂</div>
+                                <div class="ei"><i class="ti ti-inbox"></i></div>
 
                                 <h5>Tidak ada transaksi</h5>
 
